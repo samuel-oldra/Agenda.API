@@ -17,8 +17,20 @@ namespace Agenda.API.Controllers
             contatosViewModel.AddRange(
                 new List<ContatoViewModel>
                 {
-                    new ContatoViewModel(1, "Samuel", "samuel@teste.io", "(54) 99988.7766"),
-                    new ContatoViewModel(2, "Arthur", "arthur@teste.io", "(54) 99955.4433")
+                    new ContatoViewModel(
+                        1,
+                        "Samuel",
+                        "samuel@teste.io",
+                        "(54) 99988.7766",
+                        new DateTime(1984, 12, 07, 00, 00, 00)
+                    ),
+                    new ContatoViewModel(
+                        2,
+                        "Arthur",
+                        "arthur@teste.io",
+                        "(54) 99955.4433",
+                        new DateTime(2016, 08, 19, 00, 00, 00)
+                    )
                 }
             );
 
@@ -32,7 +44,13 @@ namespace Agenda.API.Controllers
         {
             Log.Information("Endpoint - POST: api/contatos");
 
-            var contatoViewModel = new ContatoViewModel(1, model.Nome, model.Email, model.Telefone);
+            var contatoViewModel = new ContatoViewModel(
+                1,
+                model.Nome,
+                model.Email,
+                model.Telefone,
+                model.DataNascimento
+            );
 
             return CreatedAtAction(
                 nameof(GetById),
@@ -50,7 +68,8 @@ namespace Agenda.API.Controllers
                 1,
                 "Samuel",
                 "samuel@teste.io",
-                "(54) 99988.7766"
+                "(54) 99988.7766",
+                new DateTime(1984, 12, 07, 00, 00, 00)
             );
 
             return Ok(contatoViewModel);

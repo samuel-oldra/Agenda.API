@@ -1,4 +1,5 @@
 using System;
+using Agenda.API.Entities;
 using Agenda.API.Models;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
@@ -23,14 +24,16 @@ namespace Agenda.API.Controllers
                         "Enviar e-mail",
                         "Enviar e-mail de cobrança",
                         new DateTime(2024, 03, 16, 00, 00, 00),
-                        new DateTime(2024, 03, 20, 23, 59, 59)
+                        new DateTime(2024, 03, 20, 23, 59, 59),
+                        TarefaEnum.Alta
                     ),
                     new TarefaViewModel(
                         2,
                         "Criar documento",
                         "Criar documento do relatório",
                         new DateTime(2024, 03, 15, 00, 00, 00),
-                        new DateTime(2024, 03, 15, 23, 59, 59)
+                        new DateTime(2024, 03, 15, 23, 59, 59),
+                        TarefaEnum.Media
                     )
                 }
             );
@@ -50,7 +53,8 @@ namespace Agenda.API.Controllers
                 model.Nome,
                 model.Descricao,
                 model.DataInicio,
-                model.DataTermino
+                model.DataTermino,
+                model.Prioridade
             );
 
             return CreatedAtAction(
@@ -70,7 +74,8 @@ namespace Agenda.API.Controllers
                 "Enviar e-mail",
                 "Enviar e-mail de cobrança",
                 new DateTime(2024, 03, 16, 00, 00, 00),
-                new DateTime(2024, 03, 20, 23, 59, 59)
+                new DateTime(2024, 03, 20, 23, 59, 59),
+                TarefaEnum.Alta
             );
 
             return Ok(tarefaViewModel);
