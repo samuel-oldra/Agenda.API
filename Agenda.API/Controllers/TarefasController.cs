@@ -75,6 +75,9 @@ namespace Agenda.API.Controllers
         {
             Log.Information("Endpoint - POST: api/tarefas");
 
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             var tarefaViewModel = new TarefaViewModel(
                 1,
                 model.Nome,
@@ -143,6 +146,9 @@ namespace Agenda.API.Controllers
         public IActionResult Put(int id, TarefaPutInputModel model)
         {
             Log.Information($"Endpoint - PUT: api/tarefas/{id}");
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
             return NoContent();
         }
