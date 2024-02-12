@@ -13,6 +13,7 @@ Foi desenvolvida uma API REST para gerenciamento de uma agenda.
 - ASP.NET Core com .NET 8
 - Swagger
 - Programação Orientada a Objetos
+- Logs com Serilog
 - Clean Code
 - Publicação
 
