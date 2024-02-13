@@ -6,7 +6,7 @@ namespace Agenda.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class ContatosController : ControllerBase
+    public class ContatoController : ControllerBase
     {
         // GET: api/contatos
         /// <summary>

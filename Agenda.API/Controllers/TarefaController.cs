@@ -8,7 +8,7 @@ namespace Agenda.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class TarefasController : ControllerBase
+    public class TarefaController : ControllerBase
     {
         // GET: api/tarefas
         /// <summary>
