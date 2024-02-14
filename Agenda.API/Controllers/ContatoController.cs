@@ -1,4 +1,5 @@
 using Agenda.API.Models;
+using Agenda.API.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
 
@@ -8,6 +9,13 @@ namespace Agenda.API.Controllers
     [Route("api/[controller]")]
     public class ContatoController : ControllerBase
     {
+        private readonly IContatoService contatoService;
+
+        public ContatoController(IContatoService contatoService)
+        {
+            this.contatoService = contatoService;
+        }
+
         // GET: api/contatos
         /// <summary>
         /// Listagem de Contatos
@@ -20,26 +28,7 @@ namespace Agenda.API.Controllers
         {
             Log.Information("Endpoint - GET: api/contatos");
 
-            var contatosViewModel = new List<ContatoViewModel>();
-            contatosViewModel.AddRange(
-                new List<ContatoViewModel>
-                {
-                    new ContatoViewModel(
-                        1,
-                        "Samuel",
-                        "samuel@teste.io",
-                        "(54) 99988.7766",
-                        new DateTime(1984, 12, 07, 00, 00, 00)
-                    ),
-                    new ContatoViewModel(
-                        2,
-                        "Arthur",
-                        "arthur@teste.io",
-                        "(54) 99955.4433",
-                        new DateTime(2016, 08, 19, 00, 00, 00)
-                    )
-                }
-            );
+            var contatosViewModel = await contatoService.GetAllAsync();
 
             Log.Information($"{contatosViewModel.Count()} contatos recuperados");
 
@@ -73,13 +62,7 @@ namespace Agenda.API.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var contatoViewModel = new ContatoViewModel(
-                1,
-                model.Nome,
-                model.Email,
-                model.Telefone,
-                model.DataNascimento
-            );
+            var contatoViewModel = await contatoService.AddAsync(model);
 
             return CreatedAtAction(
                 nameof(GetById),
@@ -103,13 +86,10 @@ namespace Agenda.API.Controllers
         {
             Log.Information($"Endpoint - GET: api/contatos/{id}");
 
-            var contatoViewModel = new ContatoViewModel(
-                1,
-                "Samuel",
-                "samuel@teste.io",
-                "(54) 99988.7766",
-                new DateTime(1984, 12, 07, 00, 00, 00)
-            );
+            var contatoViewModel = await contatoService.GetByIdAsync(id);
+
+            if (contatoViewModel == null)
+                return NotFound();
 
             return Ok(contatoViewModel);
         }
@@ -135,12 +115,17 @@ namespace Agenda.API.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public IActionResult Put(int id, ContatoPutInputModel model)
+        public async Task<IActionResult> Put(int id, ContatoPutInputModel model)
         {
             Log.Information($"Endpoint - PUT: api/contatos/{id}");
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
+
+            var contatoViewModel = await contatoService.UpdateAsync(id, model);
+
+            if (contatoViewModel == null)
+                return NotFound();
 
             return NoContent();
         }
@@ -158,6 +143,11 @@ namespace Agenda.API.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             Log.Information($"Endpoint - DELETE: api/contatos/{id}");
+
+            var contatoViewModel = await contatoService.DeleteAsync(id);
+
+            if (contatoViewModel == null)
+                return NotFound();
 
             return NoContent();
         }

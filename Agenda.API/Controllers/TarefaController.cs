@@ -1,6 +1,7 @@
 using System;
 using Agenda.API.Entities;
 using Agenda.API.Models;
+using Agenda.API.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
 
@@ -10,6 +11,13 @@ namespace Agenda.API.Controllers
     [Route("api/[controller]")]
     public class TarefaController : ControllerBase
     {
+        private readonly ITarefaService tarefaService;
+
+        public TarefaController(ITarefaService tarefaService)
+        {
+            this.tarefaService = tarefaService;
+        }
+
         // GET: api/tarefas
         /// <summary>
         /// Listagem de Tarefas
@@ -22,28 +30,7 @@ namespace Agenda.API.Controllers
         {
             Log.Information("Endpoint - GET: api/tarefas");
 
-            var tarefasViewModel = new List<TarefaViewModel>();
-            tarefasViewModel.AddRange(
-                new List<TarefaViewModel>
-                {
-                    new TarefaViewModel(
-                        1,
-                        "Enviar e-mail",
-                        "Enviar e-mail de cobrança",
-                        new DateTime(2024, 03, 16, 00, 00, 00),
-                        new DateTime(2024, 03, 20, 23, 59, 59),
-                        TarefaEnum.Alta
-                    ),
-                    new TarefaViewModel(
-                        2,
-                        "Criar documento",
-                        "Criar documento do relatório",
-                        new DateTime(2024, 03, 15, 00, 00, 00),
-                        new DateTime(2024, 03, 15, 23, 59, 59),
-                        TarefaEnum.Media
-                    )
-                }
-            );
+            var tarefasViewModel = await tarefaService.GetAllAsync();
 
             Log.Information($"{tarefasViewModel.Count()} tarefas recuperadas");
 
@@ -78,14 +65,7 @@ namespace Agenda.API.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var tarefaViewModel = new TarefaViewModel(
-                1,
-                model.Nome,
-                model.Descricao,
-                model.DataInicio,
-                model.DataTermino,
-                model.Prioridade
-            );
+            var tarefaViewModel = await tarefaService.AddAsync(model);
 
             return CreatedAtAction(
                 nameof(GetById),
@@ -109,14 +89,10 @@ namespace Agenda.API.Controllers
         {
             Log.Information($"Endpoint - GET: api/tarefas/{id}");
 
-            var tarefaViewModel = new TarefaViewModel(
-                1,
-                "Enviar e-mail",
-                "Enviar e-mail de cobrança",
-                new DateTime(2024, 03, 16, 00, 00, 00),
-                new DateTime(2024, 03, 20, 23, 59, 59),
-                TarefaEnum.Alta
-            );
+            var tarefaViewModel = await tarefaService.GetByIdAsync(id);
+
+            if (tarefaViewModel == null)
+                return NotFound();
 
             return Ok(tarefaViewModel);
         }
@@ -143,12 +119,17 @@ namespace Agenda.API.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public IActionResult Put(int id, TarefaPutInputModel model)
+        public async Task<IActionResult> Put(int id, TarefaPutInputModel model)
         {
             Log.Information($"Endpoint - PUT: api/tarefas/{id}");
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
+
+            var tarefaViewModel = await tarefaService.UpdateAsync(id, model);
+
+            if (tarefaViewModel == null)
+                return NotFound();
 
             return NoContent();
         }
@@ -166,6 +147,11 @@ namespace Agenda.API.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             Log.Information($"Endpoint - DELETE: api/tarefas/{id}");
+
+            var tarefaViewModel = await tarefaService.DeleteAsync(id);
+
+            if (tarefaViewModel == null)
+                return NotFound();
 
             return NoContent();
         }
