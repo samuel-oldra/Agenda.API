@@ -1,4 +1,6 @@
 using System.Reflection;
+using Agenda.API.Repositories;
+using Agenda.API.Repositories.Interfaces;
 using Agenda.API.Services;
 using Agenda.API.Services.Interfaces;
 using Microsoft.OpenApi.Models;
@@ -11,6 +13,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddScoped<IContatoService, ContatoService>();
 builder.Services.AddScoped<IEventoService, EventoService>();
 builder.Services.AddScoped<ITarefaService, TarefaService>();
+builder.Services.AddScoped<IContatoRepository, ContatoRepository>();
+builder.Services.AddScoped<IEventoRepository, EventoRepository>();
+builder.Services.AddScoped<ITarefaRepository, TarefaRepository>();
 
 builder.Services.AddControllers();
 
