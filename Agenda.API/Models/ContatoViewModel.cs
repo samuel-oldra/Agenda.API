@@ -1,5 +1,3 @@
-using System;
-
 namespace Agenda.API.Models
 {
     public record ContatoViewModel(

@@ -1,33 +1,48 @@
+using Agenda.API.Data;
 using Agenda.API.Entities;
 using Agenda.API.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace Agenda.API.Repositories
 {
     public class ContatoRepository : IContatoRepository
     {
+        private readonly DataContext context;
+
+        public ContatoRepository(DataContext dataContext)
+        {
+            this.context = dataContext;
+        }
+
         public async Task<List<Contato>> GetAllAsync()
         {
-            return null;
+            return await context.Contatos.ToListAsync();
         }
 
         public async Task<Contato> GetByIdAsync(int id)
         {
-            return null;
+            return await context.Contatos.SingleOrDefaultAsync(c => c.Id == id);
         }
 
-        public async Task<Contato> AddAsync(Contato entity)
+        public async Task AddAsync(Contato entity)
         {
-            return null;
+            context.Contatos.Add(entity);
+
+            await context.SaveChangesAsync();
         }
 
-        public async Task<Contato> UpdateAsync(Contato entity)
+        public async Task UpdateAsync(Contato entity)
         {
-            return null;
+            context.Contatos.Update(entity);
+
+            await context.SaveChangesAsync();
         }
 
-        public async Task<Contato> DeleteAsync(Contato entity)
+        public async Task DeleteAsync(Contato entity)
         {
-            return null;
+            context.Contatos.Remove(entity);
+
+            await context.SaveChangesAsync();
         }
     }
 }

@@ -8,10 +8,10 @@ namespace Agenda.API.Repositories.Interfaces
 
         Task<Tarefa> GetByIdAsync(int id);
 
-        Task<Tarefa> AddAsync(Tarefa entity);
+        Task AddAsync(Tarefa entity);
 
-        Task<Tarefa> UpdateAsync(Tarefa entity);
+        Task UpdateAsync(Tarefa entity);
 
-        Task<Tarefa> DeleteAsync(Tarefa entity);
+        Task DeleteAsync(Tarefa entity);
     }
 }

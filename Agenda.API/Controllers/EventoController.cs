@@ -1,4 +1,3 @@
-using System;
 using Agenda.API.Models;
 using Agenda.API.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -10,11 +9,11 @@ namespace Agenda.API.Controllers
     [Route("api/[controller]")]
     public class EventoController : ControllerBase
     {
-        private readonly IEventoService eventoService;
+        private readonly IEventoService service;
 
         public EventoController(IEventoService eventoService)
         {
-            this.eventoService = eventoService;
+            this.service = eventoService;
         }
 
         // GET: api/eventos
@@ -29,11 +28,11 @@ namespace Agenda.API.Controllers
         {
             Log.Information("Endpoint - GET: api/eventos");
 
-            var eventosViewModel = await eventoService.GetAllAsync();
+            var eventos = await service.GetAllAsync();
 
-            Log.Information($"{eventosViewModel.Count()} eventos recuperados");
+            Log.Information($"{eventos.Count()} eventos recuperados");
 
-            return Ok(eventosViewModel);
+            return Ok(eventos);
         }
 
         // POST: api/eventos
@@ -62,13 +61,9 @@ namespace Agenda.API.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var eventoViewModel = await eventoService.AddAsync(model);
+            var evento = await service.AddAsync(model);
 
-            return CreatedAtAction(
-                nameof(GetById),
-                new { id = eventoViewModel.Id },
-                eventoViewModel
-            );
+            return CreatedAtAction(nameof(GetById), new { id = evento.Id }, evento);
         }
 
         // GET: api/eventos/{id}
@@ -86,12 +81,12 @@ namespace Agenda.API.Controllers
         {
             Log.Information($"Endpoint - GET: api/eventos/{id}");
 
-            var eventoViewModel = await eventoService.GetByIdAsync(id);
+            var evento = await service.GetByIdAsync(id);
 
-            if (eventoViewModel == null)
-                return NotFound();
+            if (evento == null)
+                return NotFound("Evento não encontrado");
 
-            return Ok(eventoViewModel);
+            return Ok(evento);
         }
 
         // PUT: api/eventos/{id}
@@ -121,10 +116,10 @@ namespace Agenda.API.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var eventoViewModel = await eventoService.UpdateAsync(id, model);
+            var evento = await service.UpdateAsync(id, model);
 
-            if (eventoViewModel == null)
-                return NotFound();
+            if (evento == null)
+                return NotFound("Evento não encontrado");
 
             return NoContent();
         }
@@ -143,10 +138,10 @@ namespace Agenda.API.Controllers
         {
             Log.Information($"Endpoint - DELETE: api/eventos/{id}");
 
-            var eventoViewModel = await eventoService.DeleteAsync(id);
+            var evento = await service.DeleteAsync(id);
 
-            if (eventoViewModel == null)
-                return NotFound();
+            if (evento == null)
+                return NotFound("Evento não encontrado");
 
             return NoContent();
         }

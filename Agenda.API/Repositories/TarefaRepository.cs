@@ -1,33 +1,48 @@
+using Agenda.API.Data;
 using Agenda.API.Entities;
 using Agenda.API.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace Agenda.API.Repositories
 {
     public class TarefaRepository : ITarefaRepository
     {
+        private readonly DataContext context;
+
+        public TarefaRepository(DataContext context)
+        {
+            this.context = context;
+        }
+
         public async Task<List<Tarefa>> GetAllAsync()
         {
-            return null;
+            return await context.Tarefas.ToListAsync();
         }
 
         public async Task<Tarefa> GetByIdAsync(int id)
         {
-            return null;
+            return await context.Tarefas.SingleOrDefaultAsync(c => c.Id == id);
         }
 
-        public async Task<Tarefa> AddAsync(Tarefa entity)
+        public async Task AddAsync(Tarefa entity)
         {
-            return null;
+            context.Tarefas.Add(entity);
+
+            await context.SaveChangesAsync();
         }
 
-        public async Task<Tarefa> UpdateAsync(Tarefa entity)
+        public async Task UpdateAsync(Tarefa entity)
         {
-            return null;
+            context.Tarefas.Update(entity);
+
+            await context.SaveChangesAsync();
         }
 
-        public async Task<Tarefa> DeleteAsync(Tarefa entity)
+        public async Task DeleteAsync(Tarefa entity)
         {
-            return null;
+            context.Tarefas.Remove(entity);
+
+            await context.SaveChangesAsync();
         }
     }
 }
