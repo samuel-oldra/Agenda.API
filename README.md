@@ -11,8 +11,12 @@ Foi desenvolvida uma API REST para gerenciamento de uma agenda.
 
 ## Tecnologias e práticas utilizadas
 - ASP.NET Core com .NET 8
+- Entity Framework Core
+- In-Memory database
 - Swagger
+- Injeção de Dependência
 - Programação Orientada a Objetos
+- Padrão Repository
 - Logs com Serilog
 - Clean Code
 - Publicação
