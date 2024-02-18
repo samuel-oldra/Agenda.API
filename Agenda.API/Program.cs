@@ -1,5 +1,6 @@
 using System.Reflection;
 using Agenda.API.Data;
+using Agenda.API.Mappers;
 using Agenda.API.Repositories;
 using Agenda.API.Repositories.Interfaces;
 using Agenda.API.Services;
@@ -48,6 +49,11 @@ builder.Services.AddSwaggerGen(o =>
     var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
     o.IncludeXmlComments(xmlPath);
 });
+
+// AutoMapper
+builder.Services.AddAutoMapper(typeof(ContatoMapper));
+builder.Services.AddAutoMapper(typeof(EventoMapper));
+builder.Services.AddAutoMapper(typeof(TarefaMapper));
 
 // Serilog
 builder

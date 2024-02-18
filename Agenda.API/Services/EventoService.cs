@@ -2,15 +2,20 @@ using Agenda.API.Entities;
 using Agenda.API.Models;
 using Agenda.API.Repositories.Interfaces;
 using Agenda.API.Services.Interfaces;
+using AutoMapper;
 
 namespace Agenda.API.Services
 {
     public class EventoService : IEventoService
     {
+        private readonly IMapper mapper;
+
         private readonly IEventoRepository repository;
 
-        public EventoService(IEventoRepository eventoRepository)
+        public EventoService(IMapper mapper, IEventoRepository eventoRepository)
         {
+            this.mapper = mapper;
+
             this.repository = eventoRepository;
         }
 
@@ -21,11 +26,7 @@ namespace Agenda.API.Services
             var eventosViewModel = new List<EventoViewModel>();
 
             foreach (var evento in eventos)
-            {
-                eventosViewModel.Add(
-                    new EventoViewModel(evento.Id, evento.Nome, evento.Descricao, evento.Data)
-                );
-            }
+                eventosViewModel.Add(mapper.Map<EventoViewModel>(evento));
 
             return eventosViewModel;
         }
@@ -37,16 +38,16 @@ namespace Agenda.API.Services
             if (evento == null)
                 return null;
 
-            return new EventoViewModel(evento.Id, evento.Nome, evento.Descricao, evento.Data);
+            return mapper.Map<EventoViewModel>(evento);
         }
 
         public async Task<EventoViewModel> AddAsync(EventoPostInputModel model)
         {
-            var evento = new Evento(model.Nome, model.Descricao, model.Data);
+            var evento = mapper.Map<Evento>(model);
 
             await this.repository.AddAsync(evento);
 
-            return new EventoViewModel(evento.Id, evento.Nome, evento.Descricao, evento.Data);
+            return mapper.Map<EventoViewModel>(evento);
         }
 
         public async Task<EventoViewModel> UpdateAsync(int id, EventoPutInputModel model)
@@ -60,7 +61,7 @@ namespace Agenda.API.Services
 
             await this.repository.UpdateAsync(evento);
 
-            return new EventoViewModel(evento.Id, evento.Nome, evento.Descricao, evento.Data);
+            return mapper.Map<EventoViewModel>(evento);
         }
 
         public async Task<EventoViewModel> DeleteAsync(int id)
@@ -72,7 +73,7 @@ namespace Agenda.API.Services
 
             await this.repository.DeleteAsync(evento);
 
-            return new EventoViewModel(evento.Id, evento.Nome, evento.Descricao, evento.Data);
+            return mapper.Map<EventoViewModel>(evento);
         }
     }
 }

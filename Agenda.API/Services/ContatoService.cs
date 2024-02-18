@@ -2,15 +2,20 @@ using Agenda.API.Entities;
 using Agenda.API.Models;
 using Agenda.API.Repositories.Interfaces;
 using Agenda.API.Services.Interfaces;
+using AutoMapper;
 
 namespace Agenda.API.Services
 {
     public class ContatoService : IContatoService
     {
+        private readonly IMapper mapper;
+
         private readonly IContatoRepository repository;
 
-        public ContatoService(IContatoRepository contatoRepository)
+        public ContatoService(IMapper mapper, IContatoRepository contatoRepository)
         {
+            this.mapper = mapper;
+
             this.repository = contatoRepository;
         }
 
@@ -21,17 +26,7 @@ namespace Agenda.API.Services
             var contatosViewModel = new List<ContatoViewModel>();
 
             foreach (var contato in contatos)
-            {
-                contatosViewModel.Add(
-                    new ContatoViewModel(
-                        contato.Id,
-                        contato.Nome,
-                        contato.Email,
-                        contato.Telefone,
-                        contato.DataNascimento
-                    )
-                );
-            }
+                contatosViewModel.Add(mapper.Map<ContatoViewModel>(contato));
 
             return contatosViewModel;
         }
@@ -43,33 +38,16 @@ namespace Agenda.API.Services
             if (contato == null)
                 return null;
 
-            return new ContatoViewModel(
-                contato.Id,
-                contato.Nome,
-                contato.Email,
-                contato.Telefone,
-                contato.DataNascimento
-            );
+            return mapper.Map<ContatoViewModel>(contato);
         }
 
         public async Task<ContatoViewModel> AddAsync(ContatoPostInputModel model)
         {
-            var contato = new Contato(
-                model.Nome,
-                model.Email,
-                model.Telefone,
-                model.DataNascimento
-            );
+            var contato = mapper.Map<Contato>(model);
 
             await this.repository.AddAsync(contato);
 
-            return new ContatoViewModel(
-                contato.Id,
-                contato.Nome,
-                contato.Email,
-                contato.Telefone,
-                contato.DataNascimento
-            );
+            return mapper.Map<ContatoViewModel>(contato);
         }
 
         public async Task<ContatoViewModel> UpdateAsync(int id, ContatoPutInputModel model)
@@ -83,13 +61,7 @@ namespace Agenda.API.Services
 
             await this.repository.UpdateAsync(contato);
 
-            return new ContatoViewModel(
-                contato.Id,
-                contato.Nome,
-                contato.Email,
-                contato.Telefone,
-                contato.DataNascimento
-            );
+            return mapper.Map<ContatoViewModel>(contato);
         }
 
         public async Task<ContatoViewModel> DeleteAsync(int id)
@@ -101,13 +73,7 @@ namespace Agenda.API.Services
 
             await this.repository.DeleteAsync(contato);
 
-            return new ContatoViewModel(
-                contato.Id,
-                contato.Nome,
-                contato.Email,
-                contato.Telefone,
-                contato.DataNascimento
-            );
+            return mapper.Map<ContatoViewModel>(contato);
         }
     }
 }
