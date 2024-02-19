@@ -14,6 +14,7 @@ Foi desenvolvida uma API REST para gerenciamento de uma agenda.
 - Entity Framework Core
 - In-Memory database
 - Swagger
+- AutoMapper
 - Injeção de Dependência
 - Programação Orientada a Objetos
 - Padrão Repository
