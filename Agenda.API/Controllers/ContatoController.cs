@@ -59,9 +59,6 @@ namespace Agenda.API.Controllers
         {
             Log.Information("Endpoint - POST: api/contatos");
 
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
             var contato = await service.AddAsync(model);
 
             return CreatedAtAction(nameof(GetById), new { id = contato.Id }, contato);
@@ -114,9 +111,6 @@ namespace Agenda.API.Controllers
         public async Task<IActionResult> Put(int id, ContatoPutInputModel model)
         {
             Log.Information($"Endpoint - PUT: api/contatos/{id}");
-
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
 
             var contato = await service.UpdateAsync(id, model);
 
