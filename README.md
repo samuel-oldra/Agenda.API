@@ -19,6 +19,7 @@ Foi desenvolvida uma API REST para gerenciamento de uma agenda.
 - Programação Orientada a Objetos
 - Padrão Repository
 - Logs com Serilog
+- Validações com DataAnnotations e FluentValidations
 - Clean Code
 - Publicação
 

@@ -1,10 +1,13 @@
 using System.Reflection;
 using Agenda.API.Data;
 using Agenda.API.Mappers;
+using Agenda.API.Models;
 using Agenda.API.Repositories;
 using Agenda.API.Repositories.Interfaces;
 using Agenda.API.Services;
 using Agenda.API.Services.Interfaces;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Serilog;
@@ -54,6 +57,15 @@ builder.Services.AddSwaggerGen(o =>
 builder.Services.AddAutoMapper(typeof(ContatoMapper));
 builder.Services.AddAutoMapper(typeof(EventoMapper));
 builder.Services.AddAutoMapper(typeof(TarefaMapper));
+
+// Fluent Validation
+builder.Services.AddValidatorsFromAssemblyContaining<ContatoPostInputModelValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<EventoPostInputModelValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<TarefaPostInputModelValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<ContatoPutInputModelValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<EventoPutInputModelValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<TarefaPutInputModelValidator>();
+builder.Services.AddFluentValidationAutoValidation();
 
 // Serilog
 builder
