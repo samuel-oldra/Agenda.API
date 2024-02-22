@@ -9,6 +9,8 @@
 
 Foi desenvolvida uma API REST para gerenciamento de uma agenda.
 
+_OBS.: Esse é um projeto de estudo! Existem técnicas, métodos e tecnologias não usadas ou reduntantes._
+
 ## Tecnologias e práticas utilizadas
 - ASP.NET Core com .NET 8
 - Entity Framework Core
