@@ -14,12 +14,9 @@ namespace Agenda.API.Tests
         {
             // Arrange
             var mapperMock = new Mock<IMapper>();
-            var contatoRepositoryMock = new Mock<IContatoRepository>();
+            var contatoRepoMock = new Mock<IContatoRepository>();
 
-            var contatoService = new ContatoService(
-                mapperMock.Object,
-                contatoRepositoryMock.Object
-            );
+            var contatoService = new ContatoService(mapperMock.Object, contatoRepoMock.Object);
 
             // Act
             var contatos = contatoService.GetAllAsync();
@@ -29,7 +26,7 @@ namespace Agenda.API.Tests
 
             contatos.ShouldNotBeNull();
 
-            contatoRepositoryMock.Verify(cr => cr.GetAllAsync(), Times.Once);
+            contatoRepoMock.Verify(repo => repo.GetAllAsync(), Times.Once);
         }
     }
 }
