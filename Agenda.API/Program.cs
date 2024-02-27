@@ -6,11 +6,28 @@ using Agenda.API.Repositories;
 using Agenda.API.Repositories.Interfaces;
 using Agenda.API.Services;
 using Agenda.API.Services.Interfaces;
+using Agenda.API.Tests;
+using BenchmarkDotNet.Configs;
+using BenchmarkDotNet.Running;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Serilog;
+
+// BenchmarkDotNet
+// dotnet run --configuration Release
+#if (!DEBUG)
+var config = ManualConfig
+    .Create(DefaultConfig.Instance)
+    .WithOptions(ConfigOptions.DisableOptimizationsValidator);
+
+// BenchmarkRunner.Run(typeof(ContatoServiceTest), config);
+BenchmarkRunner.Run<ContatoServiceTest>(config);
+BenchmarkRunner.Run<EventoServiceTest>(config);
+BenchmarkRunner.Run<TarefaServiceTest>(config);
+Console.ReadKey();
+#endif
 
 var builder = WebApplication.CreateBuilder(args);
 
