@@ -59,5 +59,27 @@ namespace Agenda.API.Tests
             contatoRepoMock.Verify(repo => repo.AddAsync(It.IsAny<Contato>()), Times.Once);
             contatoRepoMock.Verify(repo => repo.GetByIdAsync(It.IsAny<int>()), Times.Once);
         }
+
+        [Fact]
+        public void ContatoServiceTest_AddAsync()
+        {
+            // Arrange
+            var contatoPostInputModel = new Fixture().Create<ContatoPostInputModel>();
+
+            var mapperMock = new Mock<IMapper>();
+            var contatoRepoMock = new Mock<IContatoRepository>();
+
+            var contatoService = new ContatoService(mapperMock.Object, contatoRepoMock.Object);
+
+            // Act
+            var addedContato = contatoService.AddAsync(contatoPostInputModel);
+
+            // Assert
+            Assert.NotNull(addedContato);
+
+            addedContato.ShouldNotBeNull();
+
+            contatoRepoMock.Verify(repo => repo.AddAsync(It.IsAny<Contato>()), Times.Once);
+        }
     }
 }
