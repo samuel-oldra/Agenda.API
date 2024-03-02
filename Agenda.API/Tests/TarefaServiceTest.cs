@@ -2,9 +2,9 @@ using Agenda.API.Entities;
 using Agenda.API.Models;
 using Agenda.API.Repositories.Interfaces;
 using Agenda.API.Services;
+using Agenda.API.Services.Interfaces;
 using AutoFixture;
 using AutoMapper;
-using BenchmarkDotNet.Attributes;
 using Moq;
 using Shouldly;
 using Xunit;
@@ -13,16 +13,23 @@ namespace Agenda.API.Tests
 {
     public class TarefaServiceTest
     {
-        [Fact]
-        [Benchmark]
-        public void TarefaServiceTest_GetAllAsync()
+        private readonly Mock<ITarefaRepository> tarefaRepoMock;
+
+        private readonly ITarefaService tarefaService;
+
+        public TarefaServiceTest()
         {
             // Arrange
             var mapperMock = new Mock<IMapper>();
-            var tarefaRepoMock = new Mock<ITarefaRepository>();
 
-            var tarefaService = new TarefaService(mapperMock.Object, tarefaRepoMock.Object);
+            tarefaRepoMock = new Mock<ITarefaRepository>();
 
+            tarefaService = new TarefaService(mapperMock.Object, tarefaRepoMock.Object);
+        }
+
+        [Fact]
+        public void GetAllAsync()
+        {
             // Act
             var tarefas = tarefaService.GetAllAsync();
 
@@ -35,15 +42,10 @@ namespace Agenda.API.Tests
         }
 
         [Fact]
-        public void TarefaServiceTest_GetByIdAsync()
+        public void GetByIdAsync()
         {
             // Arrange
             var tarefaPostInputModel = new Fixture().Create<TarefaPostInputModel>();
-
-            var mapperMock = new Mock<IMapper>();
-            var tarefaRepoMock = new Mock<ITarefaRepository>();
-
-            var tarefaService = new TarefaService(mapperMock.Object, tarefaRepoMock.Object);
 
             // Act
             var addedTarefa = tarefaService.AddAsync(tarefaPostInputModel);
@@ -61,15 +63,10 @@ namespace Agenda.API.Tests
         }
 
         [Fact]
-        public void TarefaServiceTest_AddAsync()
+        public void AddAsync()
         {
             // Arrange
             var tarefaPostInputModel = new Fixture().Create<TarefaPostInputModel>();
-
-            var mapperMock = new Mock<IMapper>();
-            var tarefaRepoMock = new Mock<ITarefaRepository>();
-
-            var tarefaService = new TarefaService(mapperMock.Object, tarefaRepoMock.Object);
 
             // Act
             var addedTarefa = tarefaService.AddAsync(tarefaPostInputModel);

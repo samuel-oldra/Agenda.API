@@ -2,9 +2,9 @@ using Agenda.API.Entities;
 using Agenda.API.Models;
 using Agenda.API.Repositories.Interfaces;
 using Agenda.API.Services;
+using Agenda.API.Services.Interfaces;
 using AutoFixture;
 using AutoMapper;
-using BenchmarkDotNet.Attributes;
 using Moq;
 using Shouldly;
 using Xunit;
@@ -13,16 +13,23 @@ namespace Agenda.API.Tests
 {
     public class ContatoServiceTest
     {
-        [Fact]
-        [Benchmark]
-        public void ContatoServiceTest_GetAllAsync()
+        private readonly Mock<IContatoRepository> contatoRepoMock;
+
+        private readonly IContatoService contatoService;
+
+        public ContatoServiceTest()
         {
             // Arrange
             var mapperMock = new Mock<IMapper>();
-            var contatoRepoMock = new Mock<IContatoRepository>();
 
-            var contatoService = new ContatoService(mapperMock.Object, contatoRepoMock.Object);
+            contatoRepoMock = new Mock<IContatoRepository>();
 
+            contatoService = new ContatoService(mapperMock.Object, contatoRepoMock.Object);
+        }
+
+        [Fact]
+        public void GetAllAsync()
+        {
             // Act
             var contatos = contatoService.GetAllAsync();
 
@@ -35,15 +42,10 @@ namespace Agenda.API.Tests
         }
 
         [Fact]
-        public void ContatoServiceTest_GetByIdAsync()
+        public void GetByIdAsync()
         {
             // Arrange
             var contatoPostInputModel = new Fixture().Create<ContatoPostInputModel>();
-
-            var mapperMock = new Mock<IMapper>();
-            var contatoRepoMock = new Mock<IContatoRepository>();
-
-            var contatoService = new ContatoService(mapperMock.Object, contatoRepoMock.Object);
 
             // Act
             var addedContato = contatoService.AddAsync(contatoPostInputModel);
@@ -61,15 +63,10 @@ namespace Agenda.API.Tests
         }
 
         [Fact]
-        public void ContatoServiceTest_AddAsync()
+        public void AddAsync()
         {
             // Arrange
             var contatoPostInputModel = new Fixture().Create<ContatoPostInputModel>();
-
-            var mapperMock = new Mock<IMapper>();
-            var contatoRepoMock = new Mock<IContatoRepository>();
-
-            var contatoService = new ContatoService(mapperMock.Object, contatoRepoMock.Object);
 
             // Act
             var addedContato = contatoService.AddAsync(contatoPostInputModel);

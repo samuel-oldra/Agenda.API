@@ -2,9 +2,9 @@ using Agenda.API.Entities;
 using Agenda.API.Models;
 using Agenda.API.Repositories.Interfaces;
 using Agenda.API.Services;
+using Agenda.API.Services.Interfaces;
 using AutoFixture;
 using AutoMapper;
-using BenchmarkDotNet.Attributes;
 using Moq;
 using Shouldly;
 using Xunit;
@@ -13,16 +13,23 @@ namespace Agenda.API.Tests
 {
     public class EventoServiceTest
     {
-        [Fact]
-        [Benchmark]
-        public void EventoServiceTest_GetAllAsync()
+        private readonly Mock<IEventoRepository> eventoRepoMock;
+
+        private readonly IEventoService eventoService;
+
+        public EventoServiceTest()
         {
             // Arrange
             var mapperMock = new Mock<IMapper>();
-            var eventoRepoMock = new Mock<IEventoRepository>();
 
-            var eventoService = new EventoService(mapperMock.Object, eventoRepoMock.Object);
+            eventoRepoMock = new Mock<IEventoRepository>();
 
+            eventoService = new EventoService(mapperMock.Object, eventoRepoMock.Object);
+        }
+
+        [Fact]
+        public void GetAllAsync()
+        {
             // Act
             var eventos = eventoService.GetAllAsync();
 
@@ -35,15 +42,10 @@ namespace Agenda.API.Tests
         }
 
         [Fact]
-        public void EventoServiceTest_GetByIdAsync()
+        public void GetByIdAsync()
         {
             // Arrange
             var eventoPostInputModel = new Fixture().Create<EventoPostInputModel>();
-
-            var mapperMock = new Mock<IMapper>();
-            var eventoRepoMock = new Mock<IEventoRepository>();
-
-            var eventoService = new EventoService(mapperMock.Object, eventoRepoMock.Object);
 
             // Act
             var addedEvento = eventoService.AddAsync(eventoPostInputModel);
@@ -61,15 +63,10 @@ namespace Agenda.API.Tests
         }
 
         [Fact]
-        public void EventoServiceTest_AddAsync()
+        public void AddAsync()
         {
             // Arrange
             var eventoPostInputModel = new Fixture().Create<EventoPostInputModel>();
-
-            var mapperMock = new Mock<IMapper>();
-            var eventoRepoMock = new Mock<IEventoRepository>();
-
-            var eventoService = new EventoService(mapperMock.Object, eventoRepoMock.Object);
 
             // Act
             var addedEvento = eventoService.AddAsync(eventoPostInputModel);
