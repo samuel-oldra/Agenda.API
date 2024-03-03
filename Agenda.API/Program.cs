@@ -22,11 +22,8 @@ var config = ManualConfig
     .Create(DefaultConfig.Instance)
     .WithOptions(ConfigOptions.DisableOptimizationsValidator);
 
-// BenchmarkRunner.Run(typeof(ContatoServiceTest), config);
-BenchmarkRunner.Run<ContatoServiceTest>(config);
-BenchmarkRunner.Run<EventoServiceTest>(config);
-BenchmarkRunner.Run<TarefaServiceTest>(config);
-Console.ReadKey();
+// BenchmarkRunner.Run(typeof(PerformanceTest), config);
+BenchmarkRunner.Run<PerformanceTest>(config);
 #endif
 
 var builder = WebApplication.CreateBuilder(args);
