@@ -101,5 +101,27 @@ namespace Agenda.API.Tests
             eventoRepoMock.Verify(repo => repo.GetByIdAsync(It.IsAny<int>()), Times.Once);
             eventoRepoMock.Verify(repo => repo.UpdateAsync(It.IsAny<Evento>()), Times.AtMostOnce);
         }
+
+        [Fact]
+        public void DeleteAsync()
+        {
+            // Arrange
+            var eventoPostInputModel = new Fixture().Create<EventoPostInputModel>();
+
+            // Act
+            var addedEvento = eventoService.AddAsync(eventoPostInputModel);
+            var deletedEvento = eventoService.DeleteAsync(addedEvento.Id);
+
+            // Assert
+            Assert.NotNull(addedEvento);
+            Assert.NotNull(deletedEvento);
+
+            addedEvento.ShouldNotBeNull();
+            deletedEvento.ShouldNotBeNull();
+
+            eventoRepoMock.Verify(repo => repo.AddAsync(It.IsAny<Evento>()), Times.Once);
+            eventoRepoMock.Verify(repo => repo.GetByIdAsync(It.IsAny<int>()), Times.Once);
+            eventoRepoMock.Verify(repo => repo.DeleteAsync(It.IsAny<Evento>()), Times.AtMostOnce);
+        }
     }
 }
