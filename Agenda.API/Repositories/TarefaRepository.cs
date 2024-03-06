@@ -26,7 +26,7 @@ namespace Agenda.API.Repositories
 
         public async Task AddAsync(Tarefa entity)
         {
-            context.Tarefas.Add(entity);
+            context.Tarefas.AddAsync(entity);
 
             await context.SaveChangesAsync();
         }
@@ -43,6 +43,37 @@ namespace Agenda.API.Repositories
             context.Tarefas.Remove(entity);
 
             await context.SaveChangesAsync();
+        }
+
+        public List<Tarefa> GetAll()
+        {
+            return context.Tarefas.ToList();
+        }
+
+        public Tarefa GetById(int id)
+        {
+            return context.Tarefas.SingleOrDefault(c => c.Id == id);
+        }
+
+        public void Add(Tarefa entity)
+        {
+            context.Tarefas.Add(entity);
+
+            context.SaveChanges();
+        }
+
+        public void Update(Tarefa entity)
+        {
+            context.Tarefas.Update(entity);
+
+            context.SaveChanges();
+        }
+
+        public void Delete(Tarefa entity)
+        {
+            context.Tarefas.Remove(entity);
+
+            context.SaveChanges();
         }
     }
 }

@@ -14,6 +14,16 @@ namespace Agenda.API.Repositories.Interfaces
 
         Task DeleteAsync(Contato entity);
 
+        List<Contato> GetAll();
+
+        Contato GetById(int id);
+
+        void Add(Contato entity);
+
+        void Update(Contato entity);
+
+        void Delete(Contato entity);
+
         #region SOMENTE ESTUDO
 
         Task<int> CountAsync();
