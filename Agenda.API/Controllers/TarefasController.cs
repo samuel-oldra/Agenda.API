@@ -1,6 +1,7 @@
 using System;
 using Agenda.API.Models;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 
 namespace Agenda.API.Controllers
 {
@@ -11,6 +12,8 @@ namespace Agenda.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
+            Log.Information("Endpoint - GET: api/tarefas");
+
             var tarefasViewModel = new List<TarefaViewModel>();
             tarefasViewModel.AddRange(
                 new List<TarefaViewModel>
@@ -32,12 +35,16 @@ namespace Agenda.API.Controllers
                 }
             );
 
+            Log.Information($"{tarefasViewModel.Count()} tarefas recuperadas");
+
             return Ok(tarefasViewModel);
         }
 
         [HttpPost]
         public async Task<IActionResult> Post(TarefaPostInputModel model)
         {
+            Log.Information("Endpoint - POST: api/tarefas");
+
             var tarefaViewModel = new TarefaViewModel(
                 1,
                 model.Nome,
@@ -56,6 +63,8 @@ namespace Agenda.API.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
+            Log.Information($"Endpoint - GET: api/tarefas/{id}");
+
             var tarefaViewModel = new TarefaViewModel(
                 1,
                 "Enviar e-mail",
@@ -70,12 +79,16 @@ namespace Agenda.API.Controllers
         [HttpPut("{id}")]
         public IActionResult Put(int id, TarefaPutInputModel model)
         {
+            Log.Information($"Endpoint - PUT: api/tarefas/{id}");
+
             return NoContent();
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
+            Log.Information($"Endpoint - DELETE: api/tarefas/{id}");
+
             return NoContent();
         }
     }
