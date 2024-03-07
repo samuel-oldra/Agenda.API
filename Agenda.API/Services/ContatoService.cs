@@ -75,5 +75,62 @@ namespace Agenda.API.Services
 
             return mapper.Map<ContatoViewModel>(contato);
         }
+
+        public List<ContatoViewModel> GetAll()
+        {
+            var contatos = this.repository.GetAll();
+
+            var contatosViewModel = new List<ContatoViewModel>();
+
+            foreach (var contato in contatos)
+                contatosViewModel.Add(mapper.Map<ContatoViewModel>(contato));
+
+            return contatosViewModel;
+        }
+
+        public ContatoViewModel GetById(int id)
+        {
+            var contato = this.repository.GetById(id);
+
+            if (contato == null)
+                return null;
+
+            return mapper.Map<ContatoViewModel>(contato);
+        }
+
+        public ContatoViewModel Add(ContatoPostInputModel model)
+        {
+            var contato = mapper.Map<Contato>(model);
+
+            this.repository.Add(contato);
+
+            return mapper.Map<ContatoViewModel>(contato);
+        }
+
+        public ContatoViewModel Update(int id, ContatoPutInputModel model)
+        {
+            var contato = this.repository.GetById(id);
+
+            if (contato == null)
+                return null;
+
+            contato.Update(model.Email, model.Telefone, model.DataNascimento);
+
+            this.repository.Update(contato);
+
+            return mapper.Map<ContatoViewModel>(contato);
+        }
+
+        public ContatoViewModel Delete(int id)
+        {
+            var contato = this.repository.GetById(id);
+
+            if (contato == null)
+                return null;
+
+            this.repository.Delete(contato);
+
+            return mapper.Map<ContatoViewModel>(contato);
+        }
     }
 }

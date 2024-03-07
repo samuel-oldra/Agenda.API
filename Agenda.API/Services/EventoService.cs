@@ -75,5 +75,62 @@ namespace Agenda.API.Services
 
             return mapper.Map<EventoViewModel>(evento);
         }
+
+        public List<EventoViewModel> GetAll()
+        {
+            var eventos = this.repository.GetAll();
+
+            var eventosViewModel = new List<EventoViewModel>();
+
+            foreach (var evento in eventos)
+                eventosViewModel.Add(mapper.Map<EventoViewModel>(evento));
+
+            return eventosViewModel;
+        }
+
+        public EventoViewModel GetById(int id)
+        {
+            var evento = this.repository.GetById(id);
+
+            if (evento == null)
+                return null;
+
+            return mapper.Map<EventoViewModel>(evento);
+        }
+
+        public EventoViewModel Add(EventoPostInputModel model)
+        {
+            var evento = mapper.Map<Evento>(model);
+
+            this.repository.Add(evento);
+
+            return mapper.Map<EventoViewModel>(evento);
+        }
+
+        public EventoViewModel Update(int id, EventoPutInputModel model)
+        {
+            var evento = this.repository.GetById(id);
+
+            if (evento == null)
+                return null;
+
+            evento.Update(model.Descricao, model.Data);
+
+            this.repository.Update(evento);
+
+            return mapper.Map<EventoViewModel>(evento);
+        }
+
+        public EventoViewModel Delete(int id)
+        {
+            var evento = this.repository.GetById(id);
+
+            if (evento == null)
+                return null;
+
+            this.repository.Delete(evento);
+
+            return mapper.Map<EventoViewModel>(evento);
+        }
     }
 }

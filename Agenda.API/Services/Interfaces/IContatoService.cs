@@ -13,5 +13,15 @@ namespace Agenda.API.Services.Interfaces
         Task<ContatoViewModel> UpdateAsync(int id, ContatoPutInputModel model);
 
         Task<ContatoViewModel> DeleteAsync(int id);
+
+        List<ContatoViewModel> GetAll();
+
+        ContatoViewModel GetById(int id);
+
+        ContatoViewModel Add(ContatoPostInputModel model);
+
+        ContatoViewModel Update(int id, ContatoPutInputModel model);
+
+        ContatoViewModel Delete(int id);
     }
 }
