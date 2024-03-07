@@ -1,4 +1,5 @@
 using System;
+using Agenda.API.Entities;
 
 namespace Agenda.API.Models
 {
@@ -6,6 +7,7 @@ namespace Agenda.API.Models
         string Nome,
         string Descricao,
         DateTime DataInicio,
-        DateTime DataTermino
+        DateTime DataTermino,
+        TarefaEnum Prioridade
     );
 }
