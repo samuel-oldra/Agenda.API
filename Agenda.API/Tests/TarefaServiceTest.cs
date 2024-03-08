@@ -1,4 +1,5 @@
 using Agenda.API.Entities;
+using Agenda.API.Mappers;
 using Agenda.API.Models;
 using Agenda.API.Repositories.Interfaces;
 using Agenda.API.Services;
@@ -20,11 +21,15 @@ namespace Agenda.API.Tests
         public TarefaServiceTest()
         {
             // Arrange
-            var mapperMock = new Mock<IMapper>();
+            var mapperConfiguration = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile(new TarefaMapper());
+            });
+            var mapperObject = mapperConfiguration.CreateMapper();
 
             tarefaRepoMock = new Mock<ITarefaRepository>();
 
-            tarefaService = new TarefaService(mapperMock.Object, tarefaRepoMock.Object);
+            tarefaService = new TarefaService(mapperObject, tarefaRepoMock.Object);
         }
 
         [Fact]
@@ -63,18 +68,28 @@ namespace Agenda.API.Tests
         }
 
         [Fact]
-        public void AddAsync()
+        public async void AddAsync()
         {
             // Arrange
             var tarefaPostInputModel = new Fixture().Create<TarefaPostInputModel>();
 
             // Act
-            var addedTarefa = tarefaService.AddAsync(tarefaPostInputModel);
+            var addedTarefa = await tarefaService.AddAsync(tarefaPostInputModel);
 
             // Assert
             Assert.NotNull(addedTarefa);
+            Assert.Equal(addedTarefa.Nome, tarefaPostInputModel.Nome);
+            Assert.Equal(addedTarefa.Descricao, tarefaPostInputModel.Descricao);
+            Assert.Equal(addedTarefa.DataInicio, tarefaPostInputModel.DataInicio);
+            Assert.Equal(addedTarefa.DataTermino, tarefaPostInputModel.DataTermino);
+            Assert.Equal(addedTarefa.Prioridade, tarefaPostInputModel.Prioridade);
 
             addedTarefa.ShouldNotBeNull();
+            addedTarefa.Nome.ShouldBe(tarefaPostInputModel.Nome);
+            addedTarefa.Descricao.ShouldBe(tarefaPostInputModel.Descricao);
+            addedTarefa.DataInicio.ShouldBe(tarefaPostInputModel.DataInicio);
+            addedTarefa.DataTermino.ShouldBe(tarefaPostInputModel.DataTermino);
+            addedTarefa.Prioridade.ShouldBe(tarefaPostInputModel.Prioridade);
 
             tarefaRepoMock.Verify(repo => repo.AddAsync(It.IsAny<Tarefa>()), Times.Once);
         }

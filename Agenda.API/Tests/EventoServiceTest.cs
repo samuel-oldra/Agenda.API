@@ -1,4 +1,5 @@
 using Agenda.API.Entities;
+using Agenda.API.Mappers;
 using Agenda.API.Models;
 using Agenda.API.Repositories.Interfaces;
 using Agenda.API.Services;
@@ -20,11 +21,15 @@ namespace Agenda.API.Tests
         public EventoServiceTest()
         {
             // Arrange
-            var mapperMock = new Mock<IMapper>();
+            var mapperConfiguration = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile(new EventoMapper());
+            });
+            var mapperObject = mapperConfiguration.CreateMapper();
 
             eventoRepoMock = new Mock<IEventoRepository>();
 
-            eventoService = new EventoService(mapperMock.Object, eventoRepoMock.Object);
+            eventoService = new EventoService(mapperObject, eventoRepoMock.Object);
         }
 
         [Fact]
@@ -63,18 +68,24 @@ namespace Agenda.API.Tests
         }
 
         [Fact]
-        public void AddAsync()
+        public async void AddAsync()
         {
             // Arrange
             var eventoPostInputModel = new Fixture().Create<EventoPostInputModel>();
 
             // Act
-            var addedEvento = eventoService.AddAsync(eventoPostInputModel);
+            var addedEvento = await eventoService.AddAsync(eventoPostInputModel);
 
             // Assert
             Assert.NotNull(addedEvento);
+            Assert.Equal(addedEvento.Nome, eventoPostInputModel.Nome);
+            Assert.Equal(addedEvento.Descricao, eventoPostInputModel.Descricao);
+            Assert.Equal(addedEvento.Data, eventoPostInputModel.Data);
 
             addedEvento.ShouldNotBeNull();
+            addedEvento.Nome.ShouldBe(eventoPostInputModel.Nome);
+            addedEvento.Descricao.ShouldBe(eventoPostInputModel.Descricao);
+            addedEvento.Data.ShouldBe(eventoPostInputModel.Data);
 
             eventoRepoMock.Verify(repo => repo.AddAsync(It.IsAny<Evento>()), Times.Once);
         }

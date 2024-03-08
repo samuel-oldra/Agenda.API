@@ -1,4 +1,5 @@
 using Agenda.API.Entities;
+using Agenda.API.Mappers;
 using Agenda.API.Models;
 using Agenda.API.Repositories.Interfaces;
 using Agenda.API.Services;
@@ -20,11 +21,15 @@ namespace Agenda.API.Tests
         public ContatoServiceTest()
         {
             // Arrange
-            var mapperMock = new Mock<IMapper>();
+            var mapperConfiguration = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile(new ContatoMapper());
+            });
+            var mapperObject = mapperConfiguration.CreateMapper();
 
             contatoRepoMock = new Mock<IContatoRepository>();
 
-            contatoService = new ContatoService(mapperMock.Object, contatoRepoMock.Object);
+            contatoService = new ContatoService(mapperObject, contatoRepoMock.Object);
         }
 
         [Fact]
@@ -63,18 +68,26 @@ namespace Agenda.API.Tests
         }
 
         [Fact]
-        public void AddAsync()
+        public async void AddAsync()
         {
             // Arrange
             var contatoPostInputModel = new Fixture().Create<ContatoPostInputModel>();
 
             // Act
-            var addedContato = contatoService.AddAsync(contatoPostInputModel);
+            var addedContato = await contatoService.AddAsync(contatoPostInputModel);
 
             // Assert
             Assert.NotNull(addedContato);
+            Assert.Equal(addedContato.Nome, contatoPostInputModel.Nome);
+            Assert.Equal(addedContato.Email, contatoPostInputModel.Email);
+            Assert.Equal(addedContato.Telefone, contatoPostInputModel.Telefone);
+            Assert.Equal(addedContato.DataNascimento, contatoPostInputModel.DataNascimento);
 
             addedContato.ShouldNotBeNull();
+            addedContato.Nome.ShouldBe(contatoPostInputModel.Nome);
+            addedContato.Email.ShouldBe(contatoPostInputModel.Email);
+            addedContato.Telefone.ShouldBe(contatoPostInputModel.Telefone);
+            addedContato.DataNascimento.ShouldBe(contatoPostInputModel.DataNascimento);
 
             contatoRepoMock.Verify(repo => repo.AddAsync(It.IsAny<Contato>()), Times.Once);
         }
