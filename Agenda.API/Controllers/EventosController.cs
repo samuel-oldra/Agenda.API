@@ -68,6 +68,9 @@ namespace Agenda.API.Controllers
         {
             Log.Information("Endpoint - POST: api/eventos");
 
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             var eventoViewModel = new EventoViewModel(1, model.Nome, model.Descricao, model.Data);
 
             return CreatedAtAction(
@@ -125,6 +128,9 @@ namespace Agenda.API.Controllers
         public IActionResult Put(int id, EventoPutInputModel model)
         {
             Log.Information($"Endpoint - PUT: api/eventos/{id}");
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
             return NoContent();
         }
