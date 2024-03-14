@@ -1,5 +1,6 @@
 using System;
 using Agenda.API.Models;
+using Agenda.API.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
 
@@ -9,6 +10,13 @@ namespace Agenda.API.Controllers
     [Route("api/[controller]")]
     public class EventoController : ControllerBase
     {
+        private readonly IEventoService eventoService;
+
+        public EventoController(IEventoService eventoService)
+        {
+            this.eventoService = eventoService;
+        }
+
         // GET: api/eventos
         /// <summary>
         /// Listagem de Eventos
@@ -21,24 +29,7 @@ namespace Agenda.API.Controllers
         {
             Log.Information("Endpoint - GET: api/eventos");
 
-            var eventosViewModel = new List<EventoViewModel>();
-            eventosViewModel.AddRange(
-                new List<EventoViewModel>
-                {
-                    new EventoViewModel(
-                        1,
-                        "Aniversário",
-                        "Aniversário do Arthur",
-                        new DateTime(2024, 08, 19, 19, 00, 00)
-                    ),
-                    new EventoViewModel(
-                        2,
-                        "Formatura",
-                        "Formatura do Arthur",
-                        new DateTime(2022, 12, 20, 20, 00, 00)
-                    )
-                }
-            );
+            var eventosViewModel = await eventoService.GetAllAsync();
 
             Log.Information($"{eventosViewModel.Count()} eventos recuperados");
 
@@ -71,7 +62,7 @@ namespace Agenda.API.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var eventoViewModel = new EventoViewModel(1, model.Nome, model.Descricao, model.Data);
+            var eventoViewModel = await eventoService.AddAsync(model);
 
             return CreatedAtAction(
                 nameof(GetById),
@@ -95,12 +86,10 @@ namespace Agenda.API.Controllers
         {
             Log.Information($"Endpoint - GET: api/eventos/{id}");
 
-            var eventoViewModel = new EventoViewModel(
-                1,
-                "Aniversário",
-                "Aniversário do Arthur",
-                new DateTime(2024, 08, 19, 19, 00, 00)
-            );
+            var eventoViewModel = await eventoService.GetByIdAsync(id);
+
+            if (eventoViewModel == null)
+                return NotFound();
 
             return Ok(eventoViewModel);
         }
@@ -125,12 +114,17 @@ namespace Agenda.API.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public IActionResult Put(int id, EventoPutInputModel model)
+        public async Task<IActionResult> Put(int id, EventoPutInputModel model)
         {
             Log.Information($"Endpoint - PUT: api/eventos/{id}");
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
+
+            var eventoViewModel = await eventoService.UpdateAsync(id, model);
+
+            if (eventoViewModel == null)
+                return NotFound();
 
             return NoContent();
         }
@@ -148,6 +142,11 @@ namespace Agenda.API.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             Log.Information($"Endpoint - DELETE: api/eventos/{id}");
+
+            var eventoViewModel = await eventoService.DeleteAsync(id);
+
+            if (eventoViewModel == null)
+                return NotFound();
 
             return NoContent();
         }

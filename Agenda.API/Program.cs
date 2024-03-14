@@ -1,8 +1,16 @@
 using System.Reflection;
+using Agenda.API.Services;
+using Agenda.API.Services.Interfaces;
 using Microsoft.OpenApi.Models;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Injeção de Dependência
+// Tipos: Transient, Scoped, Singleton
+builder.Services.AddScoped<IContatoService, ContatoService>();
+builder.Services.AddScoped<IEventoService, EventoService>();
+builder.Services.AddScoped<ITarefaService, TarefaService>();
 
 builder.Services.AddControllers();
 
