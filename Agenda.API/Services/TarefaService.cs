@@ -1,85 +1,118 @@
 using Agenda.API.Entities;
 using Agenda.API.Models;
+using Agenda.API.Repositories.Interfaces;
 using Agenda.API.Services.Interfaces;
 
 namespace Agenda.API.Services
 {
     public class TarefaService : ITarefaService
     {
+        private readonly ITarefaRepository repository;
+
+        public TarefaService(ITarefaRepository tarefaRepository)
+        {
+            this.repository = tarefaRepository;
+        }
+
         public async Task<List<TarefaViewModel>> GetAllAsync()
         {
+            var tarefas = await this.repository.GetAllAsync();
+
             var tarefasViewModel = new List<TarefaViewModel>();
 
-            tarefasViewModel.AddRange(
-                new List<TarefaViewModel>
-                {
+            foreach (var tarefa in tarefas)
+            {
+                tarefasViewModel.Add(
                     new TarefaViewModel(
-                        1,
-                        "Enviar e-mail",
-                        "Enviar e-mail de cobrança",
-                        new DateTime(2024, 03, 16, 00, 00, 00),
-                        new DateTime(2024, 03, 20, 23, 59, 59),
-                        TarefaEnum.Alta
-                    ),
-                    new TarefaViewModel(
-                        2,
-                        "Criar documento",
-                        "Criar documento do relatório",
-                        new DateTime(2024, 03, 15, 00, 00, 00),
-                        new DateTime(2024, 03, 15, 23, 59, 59),
-                        TarefaEnum.Media
+                        tarefa.Id,
+                        tarefa.Nome,
+                        tarefa.Descricao,
+                        tarefa.DataInicio,
+                        tarefa.DataTermino,
+                        tarefa.Prioridade
                     )
-                }
-            );
+                );
+            }
 
             return tarefasViewModel;
         }
 
         public async Task<TarefaViewModel> GetByIdAsync(int id)
         {
+            var tarefa = await this.repository.GetByIdAsync(id);
+
+            if (tarefa == null)
+                return null;
+
             return new TarefaViewModel(
-                id,
-                "Enviar e-mail",
-                "Enviar e-mail de cobrança",
-                new DateTime(2024, 03, 16, 00, 00, 00),
-                new DateTime(2024, 03, 20, 23, 59, 59),
-                TarefaEnum.Alta
+                tarefa.Id,
+                tarefa.Nome,
+                tarefa.Descricao,
+                tarefa.DataInicio,
+                tarefa.DataTermino,
+                tarefa.Prioridade
             );
         }
 
         public async Task<TarefaViewModel> AddAsync(TarefaPostInputModel model)
         {
-            return new TarefaViewModel(
-                1,
+            var tarefa = new Tarefa(
                 model.Nome,
                 model.Descricao,
                 model.DataInicio,
                 model.DataTermino,
                 model.Prioridade
             );
+
+            await this.repository.AddAsync(tarefa);
+
+            return new TarefaViewModel(
+                tarefa.Id,
+                tarefa.Nome,
+                tarefa.Descricao,
+                tarefa.DataInicio,
+                tarefa.DataTermino,
+                tarefa.Prioridade
+            );
         }
 
         public async Task<TarefaViewModel> UpdateAsync(int id, TarefaPutInputModel model)
         {
+            var tarefa = await this.repository.GetByIdAsync(id);
+
+            if (tarefa == null)
+                return null;
+
+            tarefa.Update(model.Descricao, model.DataInicio, model.DataTermino, model.Prioridade);
+
+            await this.repository.UpdateAsync(tarefa);
+
             return new TarefaViewModel(
-                id,
-                "Enviar e-mail",
-                model.Descricao,
-                model.DataInicio,
-                model.DataTermino,
-                model.Prioridade
+                tarefa.Id,
+                tarefa.Nome,
+                tarefa.Descricao,
+                tarefa.DataInicio,
+                tarefa.DataTermino,
+                tarefa.Prioridade
             );
         }
 
         public async Task<TarefaViewModel> DeleteAsync(int id)
         {
+            var tarefa = await this.repository.GetByIdAsync(id);
+
+            if (tarefa == null)
+                return null;
+
+            await this.repository.DeleteAsync(tarefa);
+
             return new TarefaViewModel(
-                id,
-                "Enviar e-mail",
-                "Enviar e-mail de cobrança",
-                new DateTime(2024, 03, 16, 00, 00, 00),
-                new DateTime(2024, 03, 20, 23, 59, 59),
-                TarefaEnum.Alta
+                tarefa.Id,
+                tarefa.Nome,
+                tarefa.Descricao,
+                tarefa.DataInicio,
+                tarefa.DataTermino,
+                tarefa.Prioridade
             );
         }
     }

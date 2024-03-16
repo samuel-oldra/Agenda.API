@@ -1,63 +1,78 @@
+using Agenda.API.Entities;
 using Agenda.API.Models;
+using Agenda.API.Repositories.Interfaces;
 using Agenda.API.Services.Interfaces;
 
 namespace Agenda.API.Services
 {
     public class EventoService : IEventoService
     {
+        private readonly IEventoRepository repository;
+
+        public EventoService(IEventoRepository eventoRepository)
+        {
+            this.repository = eventoRepository;
+        }
+
         public async Task<List<EventoViewModel>> GetAllAsync()
         {
+            var eventos = await this.repository.GetAllAsync();
+
             var eventosViewModel = new List<EventoViewModel>();
 
-            eventosViewModel.AddRange(
-                new List<EventoViewModel>
-                {
-                    new EventoViewModel(
-                        1,
-                        "Aniversário",
-                        "Aniversário do Arthur",
-                        new DateTime(2024, 08, 19, 19, 00, 00)
-                    ),
-                    new EventoViewModel(
-                        2,
-                        "Formatura",
-                        "Formatura do Arthur",
-                        new DateTime(2022, 12, 20, 20, 00, 00)
-                    )
-                }
-            );
+            foreach (var evento in eventos)
+            {
+                eventosViewModel.Add(
+                    new EventoViewModel(evento.Id, evento.Nome, evento.Descricao, evento.Data)
+                );
+            }
 
             return eventosViewModel;
         }
 
         public async Task<EventoViewModel> GetByIdAsync(int id)
         {
-            return new EventoViewModel(
-                id,
-                "Aniversário",
-                "Aniversário do Arthur",
-                new DateTime(2024, 08, 19, 19, 00, 00)
-            );
+            var evento = await this.repository.GetByIdAsync(id);
+
+            if (evento == null)
+                return null;
+
+            return new EventoViewModel(evento.Id, evento.Nome, evento.Descricao, evento.Data);
         }
 
         public async Task<EventoViewModel> AddAsync(EventoPostInputModel model)
         {
-            return new EventoViewModel(1, model.Nome, model.Descricao, model.Data);
+            var evento = new Evento(model.Nome, model.Descricao, model.Data);
+
+            await this.repository.AddAsync(evento);
+
+            return new EventoViewModel(evento.Id, evento.Nome, evento.Descricao, evento.Data);
         }
 
         public async Task<EventoViewModel> UpdateAsync(int id, EventoPutInputModel model)
         {
-            return new EventoViewModel(id, "Aniversário", model.Descricao, model.Data);
+            var evento = await this.repository.GetByIdAsync(id);
+
+            if (evento == null)
+                return null;
+
+            evento.Update(model.Descricao, model.Data);
+
+            await this.repository.UpdateAsync(evento);
+
+            return new EventoViewModel(evento.Id, evento.Nome, evento.Descricao, evento.Data);
         }
 
         public async Task<EventoViewModel> DeleteAsync(int id)
         {
-            return new EventoViewModel(
-                id,
-                "Aniversário",
-                "Aniversário do Arthur",
-                new DateTime(2024, 08, 19, 19, 00, 00)
-            );
+            var evento = await this.repository.GetByIdAsync(id);
+
+            if (evento == null)
+                return null;
+
+            await this.repository.DeleteAsync(evento);
+
+            return new EventoViewModel(evento.Id, evento.Nome, evento.Descricao, evento.Data);
         }
     }
 }

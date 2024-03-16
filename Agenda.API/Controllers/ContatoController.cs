@@ -9,11 +9,11 @@ namespace Agenda.API.Controllers
     [Route("api/[controller]")]
     public class ContatoController : ControllerBase
     {
-        private readonly IContatoService contatoService;
+        private readonly IContatoService service;
 
         public ContatoController(IContatoService contatoService)
         {
-            this.contatoService = contatoService;
+            this.service = contatoService;
         }
 
         // GET: api/contatos
@@ -28,11 +28,11 @@ namespace Agenda.API.Controllers
         {
             Log.Information("Endpoint - GET: api/contatos");
 
-            var contatosViewModel = await contatoService.GetAllAsync();
+            var contatos = await service.GetAllAsync();
 
-            Log.Information($"{contatosViewModel.Count()} contatos recuperados");
+            Log.Information($"{contatos.Count()} contatos recuperados");
 
-            return Ok(contatosViewModel);
+            return Ok(contatos);
         }
 
         // POST: api/contatos
@@ -62,13 +62,9 @@ namespace Agenda.API.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var contatoViewModel = await contatoService.AddAsync(model);
+            var contato = await service.AddAsync(model);
 
-            return CreatedAtAction(
-                nameof(GetById),
-                new { id = contatoViewModel.Id },
-                contatoViewModel
-            );
+            return CreatedAtAction(nameof(GetById), new { id = contato.Id }, contato);
         }
 
         // GET: api/contatos/{id}
@@ -86,12 +82,12 @@ namespace Agenda.API.Controllers
         {
             Log.Information($"Endpoint - GET: api/contatos/{id}");
 
-            var contatoViewModel = await contatoService.GetByIdAsync(id);
+            var contato = await service.GetByIdAsync(id);
 
-            if (contatoViewModel == null)
-                return NotFound();
+            if (contato == null)
+                return NotFound("Contato não encontrado");
 
-            return Ok(contatoViewModel);
+            return Ok(contato);
         }
 
         // PUT: api/contatos/{id}
@@ -122,10 +118,10 @@ namespace Agenda.API.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var contatoViewModel = await contatoService.UpdateAsync(id, model);
+            var contato = await service.UpdateAsync(id, model);
 
-            if (contatoViewModel == null)
-                return NotFound();
+            if (contato == null)
+                return NotFound("Contato não encontrado");
 
             return NoContent();
         }
@@ -144,10 +140,10 @@ namespace Agenda.API.Controllers
         {
             Log.Information($"Endpoint - DELETE: api/contatos/{id}");
 
-            var contatoViewModel = await contatoService.DeleteAsync(id);
+            var contato = await service.DeleteAsync(id);
 
-            if (contatoViewModel == null)
-                return NotFound();
+            if (contato == null)
+                return NotFound("Contato não encontrado");
 
             return NoContent();
         }

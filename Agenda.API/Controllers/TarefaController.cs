@@ -1,5 +1,3 @@
-using System;
-using Agenda.API.Entities;
 using Agenda.API.Models;
 using Agenda.API.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -11,11 +9,11 @@ namespace Agenda.API.Controllers
     [Route("api/[controller]")]
     public class TarefaController : ControllerBase
     {
-        private readonly ITarefaService tarefaService;
+        private readonly ITarefaService service;
 
         public TarefaController(ITarefaService tarefaService)
         {
-            this.tarefaService = tarefaService;
+            this.service = tarefaService;
         }
 
         // GET: api/tarefas
@@ -30,11 +28,11 @@ namespace Agenda.API.Controllers
         {
             Log.Information("Endpoint - GET: api/tarefas");
 
-            var tarefasViewModel = await tarefaService.GetAllAsync();
+            var tarefas = await service.GetAllAsync();
 
-            Log.Information($"{tarefasViewModel.Count()} tarefas recuperadas");
+            Log.Information($"{tarefas.Count()} tarefas recuperadas");
 
-            return Ok(tarefasViewModel);
+            return Ok(tarefas);
         }
 
         // POST: api/tarefas
@@ -65,13 +63,9 @@ namespace Agenda.API.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var tarefaViewModel = await tarefaService.AddAsync(model);
+            var tarefa = await service.AddAsync(model);
 
-            return CreatedAtAction(
-                nameof(GetById),
-                new { id = tarefaViewModel.Id },
-                tarefaViewModel
-            );
+            return CreatedAtAction(nameof(GetById), new { id = tarefa.Id }, tarefa);
         }
 
         // GET: api/tarefas/{id}
@@ -89,12 +83,12 @@ namespace Agenda.API.Controllers
         {
             Log.Information($"Endpoint - GET: api/tarefas/{id}");
 
-            var tarefaViewModel = await tarefaService.GetByIdAsync(id);
+            var tarefa = await service.GetByIdAsync(id);
 
-            if (tarefaViewModel == null)
-                return NotFound();
+            if (tarefa == null)
+                return NotFound("Tarefa não encontrada");
 
-            return Ok(tarefaViewModel);
+            return Ok(tarefa);
         }
 
         // PUT: api/tarefas/{id}
@@ -126,10 +120,10 @@ namespace Agenda.API.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var tarefaViewModel = await tarefaService.UpdateAsync(id, model);
+            var tarefa = await service.UpdateAsync(id, model);
 
-            if (tarefaViewModel == null)
-                return NotFound();
+            if (tarefa == null)
+                return NotFound("Tarefa não encontrada");
 
             return NoContent();
         }
@@ -148,10 +142,10 @@ namespace Agenda.API.Controllers
         {
             Log.Information($"Endpoint - DELETE: api/tarefas/{id}");
 
-            var tarefaViewModel = await tarefaService.DeleteAsync(id);
+            var tarefa = await service.DeleteAsync(id);
 
-            if (tarefaViewModel == null)
-                return NotFound();
+            if (tarefa == null)
+                return NotFound("Tarefa não encontrada");
 
             return NoContent();
         }

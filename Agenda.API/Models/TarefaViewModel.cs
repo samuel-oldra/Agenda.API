@@ -1,4 +1,3 @@
-using System;
 using Agenda.API.Entities;
 
 namespace Agenda.API.Models

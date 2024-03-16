@@ -8,10 +8,10 @@ namespace Agenda.API.Repositories.Interfaces
 
         Task<Contato> GetByIdAsync(int id);
 
-        Task<Contato> AddAsync(Contato entity);
+        Task AddAsync(Contato entity);
 
-        Task<Contato> UpdateAsync(Contato entity);
+        Task UpdateAsync(Contato entity);
 
-        Task<Contato> DeleteAsync(Contato entity);
+        Task DeleteAsync(Contato entity);
     }
 }

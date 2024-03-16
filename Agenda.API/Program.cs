@@ -1,12 +1,17 @@
 using System.Reflection;
+using Agenda.API.Data;
 using Agenda.API.Repositories;
 using Agenda.API.Repositories.Interfaces;
 using Agenda.API.Services;
 using Agenda.API.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// PARA ACESSO AO BANCO EM MEMÓRIA
+builder.Services.AddDbContext<DataContext>(o => o.UseInMemoryDatabase("dados"));
 
 // Injeção de Dependência
 // Tipos: Transient, Scoped, Singleton
