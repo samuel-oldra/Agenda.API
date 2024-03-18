@@ -2,15 +2,20 @@ using Agenda.API.Entities;
 using Agenda.API.Models;
 using Agenda.API.Repositories.Interfaces;
 using Agenda.API.Services.Interfaces;
+using AutoMapper;
 
 namespace Agenda.API.Services
 {
     public class TarefaService : ITarefaService
     {
+        private readonly IMapper mapper;
+
         private readonly ITarefaRepository repository;
 
-        public TarefaService(ITarefaRepository tarefaRepository)
+        public TarefaService(IMapper mapper, ITarefaRepository tarefaRepository)
         {
+            this.mapper = mapper;
+
             this.repository = tarefaRepository;
         }
 
@@ -21,18 +26,7 @@ namespace Agenda.API.Services
             var tarefasViewModel = new List<TarefaViewModel>();
 
             foreach (var tarefa in tarefas)
-            {
-                tarefasViewModel.Add(
-                    new TarefaViewModel(
-                        tarefa.Id,
-                        tarefa.Nome,
-                        tarefa.Descricao,
-                        tarefa.DataInicio,
-                        tarefa.DataTermino,
-                        tarefa.Prioridade
-                    )
-                );
-            }
+                tarefasViewModel.Add(mapper.Map<TarefaViewModel>(tarefa));
 
             return tarefasViewModel;
         }
@@ -44,36 +38,16 @@ namespace Agenda.API.Services
             if (tarefa == null)
                 return null;
 
-            return new TarefaViewModel(
-                tarefa.Id,
-                tarefa.Nome,
-                tarefa.Descricao,
-                tarefa.DataInicio,
-                tarefa.DataTermino,
-                tarefa.Prioridade
-            );
+            return mapper.Map<TarefaViewModel>(tarefa);
         }
 
         public async Task<TarefaViewModel> AddAsync(TarefaPostInputModel model)
         {
-            var tarefa = new Tarefa(
-                model.Nome,
-                model.Descricao,
-                model.DataInicio,
-                model.DataTermino,
-                model.Prioridade
-            );
+            var tarefa = mapper.Map<Tarefa>(model);
 
             await this.repository.AddAsync(tarefa);
 
-            return new TarefaViewModel(
-                tarefa.Id,
-                tarefa.Nome,
-                tarefa.Descricao,
-                tarefa.DataInicio,
-                tarefa.DataTermino,
-                tarefa.Prioridade
-            );
+            return mapper.Map<TarefaViewModel>(tarefa);
         }
 
         public async Task<TarefaViewModel> UpdateAsync(int id, TarefaPutInputModel model)
@@ -87,14 +61,7 @@ namespace Agenda.API.Services
 
             await this.repository.UpdateAsync(tarefa);
 
-            return new TarefaViewModel(
-                tarefa.Id,
-                tarefa.Nome,
-                tarefa.Descricao,
-                tarefa.DataInicio,
-                tarefa.DataTermino,
-                tarefa.Prioridade
-            );
+            return mapper.Map<TarefaViewModel>(tarefa);
         }
 
         public async Task<TarefaViewModel> DeleteAsync(int id)
@@ -106,14 +73,7 @@ namespace Agenda.API.Services
 
             await this.repository.DeleteAsync(tarefa);
 
-            return new TarefaViewModel(
-                tarefa.Id,
-                tarefa.Nome,
-                tarefa.Descricao,
-                tarefa.DataInicio,
-                tarefa.DataTermino,
-                tarefa.Prioridade
-            );
+            return mapper.Map<TarefaViewModel>(tarefa);
         }
     }
 }
