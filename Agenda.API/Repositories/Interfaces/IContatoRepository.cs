@@ -13,5 +13,39 @@ namespace Agenda.API.Repositories.Interfaces
         Task UpdateAsync(Contato entity);
 
         Task DeleteAsync(Contato entity);
+
+        #region SOMENTE ESTUDO
+
+        Task<int> CountAsync();
+
+        Task<int> CountAsync(string nome);
+
+        Task<bool> AnyAsync();
+
+        Task<bool> AnyAsync(string nome);
+
+        Task<bool> AllAsync(string nome);
+
+        Task<Contato> FirstOrDefaultAsync();
+
+        Task<Contato> FirstOrDefaultAsync(string nome);
+
+        Task<Contato> LastOrDefaultAsync();
+
+        Task<Contato> LastOrDefaultAsync(string nome);
+
+        Task<Contato> ElementAtOrDefaultAsync(int index);
+
+        Task<List<Contato>> WhereAsync(string nome);
+
+        Task<List<Contato>> TakeStartAsync(int qtd);
+
+        Task<List<Contato>> TakeEndAsync(int qtd);
+
+        Task<List<Contato>> TakeRangeAsync(int start, int end);
+
+        Task<List<Contato>> Skip(int qtd);
+
+        #endregion
     }
 }
