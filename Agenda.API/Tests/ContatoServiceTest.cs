@@ -1,6 +1,7 @@
 using Agenda.API.Repositories.Interfaces;
 using Agenda.API.Services;
 using AutoMapper;
+using BenchmarkDotNet.Attributes;
 using Moq;
 using Shouldly;
 using Xunit;
@@ -10,7 +11,8 @@ namespace Agenda.API.Tests
     public class ContatoServiceTest
     {
         [Fact]
-        public void GetAllAsync()
+        [Benchmark]
+        public void ContatoServiceTest_GetAllAsync()
         {
             // Arrange
             var mapperMock = new Mock<IMapper>();
