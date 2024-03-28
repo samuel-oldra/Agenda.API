@@ -17,11 +17,13 @@ _OBS.: Esse é um projeto de estudo! Existem técnicas, métodos e tecnologias n
 - In-Memory database
 - Swagger
 - AutoMapper
-- Injeção de Dependência
 - Programação Orientada a Objetos
+- Injeção de Dependência
 - Padrão Repository
 - Logs com Serilog
 - Validações com DataAnnotations e FluentValidations
+- Testes com xUnit, __AutoFixture__, Moq e Shouldly
+- Analise de performance com BenchmarkDotNet
 - Clean Code
 - Publicação
 
@@ -40,8 +42,13 @@ _OBS.: Esse é um projeto de estudo! Existem técnicas, métodos e tecnologias n
 ```
 dotnet new gitignore
 dotnet new webapi -o Agenda.API -f net8.0
+
 dotnet build
 dotnet run
+dotnet run --configuration Release
 dotnet watch run
+
+dotnet test
+
 dotnet publish
 ```
