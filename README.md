@@ -22,7 +22,7 @@ _OBS.: Esse é um projeto de estudo! Existem técnicas, métodos e tecnologias n
 - Padrão Repository
 - Logs com Serilog
 - Validações com DataAnnotations e FluentValidations
-- Testes com xUnit, __AutoFixture__, Moq e Shouldly
+- Testes com xUnit, AutoFixture, Moq e Shouldly
 - Analise de performance com BenchmarkDotNet
 - Clean Code
 - Publicação
