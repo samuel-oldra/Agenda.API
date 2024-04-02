@@ -78,5 +78,28 @@ namespace Agenda.API.Tests
 
             eventoRepoMock.Verify(repo => repo.AddAsync(It.IsAny<Evento>()), Times.Once);
         }
+
+        [Fact]
+        public void UpdateAsync()
+        {
+            // Arrange
+            var eventoPostInputModel = new Fixture().Create<EventoPostInputModel>();
+            var eventoPutInputModel = new Fixture().Create<EventoPutInputModel>();
+
+            // Act
+            var addedEvento = eventoService.AddAsync(eventoPostInputModel);
+            var updatedEvento = eventoService.UpdateAsync(addedEvento.Id, eventoPutInputModel);
+
+            // Assert
+            Assert.NotNull(addedEvento);
+            Assert.NotNull(updatedEvento);
+
+            addedEvento.ShouldNotBeNull();
+            updatedEvento.ShouldNotBeNull();
+
+            eventoRepoMock.Verify(repo => repo.AddAsync(It.IsAny<Evento>()), Times.Once);
+            eventoRepoMock.Verify(repo => repo.GetByIdAsync(It.IsAny<int>()), Times.Once);
+            eventoRepoMock.Verify(repo => repo.UpdateAsync(It.IsAny<Evento>()), Times.AtMostOnce);
+        }
     }
 }

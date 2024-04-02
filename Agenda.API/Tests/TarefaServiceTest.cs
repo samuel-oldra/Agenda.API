@@ -78,5 +78,28 @@ namespace Agenda.API.Tests
 
             tarefaRepoMock.Verify(repo => repo.AddAsync(It.IsAny<Tarefa>()), Times.Once);
         }
+
+        [Fact]
+        public void UpdateAsync()
+        {
+            // Arrange
+            var tarefaPostInputModel = new Fixture().Create<TarefaPostInputModel>();
+            var tarefaPutInputModel = new Fixture().Create<TarefaPutInputModel>();
+
+            // Act
+            var addedTarefa = tarefaService.AddAsync(tarefaPostInputModel);
+            var updatedTarefa = tarefaService.UpdateAsync(addedTarefa.Id, tarefaPutInputModel);
+
+            // Assert
+            Assert.NotNull(addedTarefa);
+            Assert.NotNull(updatedTarefa);
+
+            addedTarefa.ShouldNotBeNull();
+            updatedTarefa.ShouldNotBeNull();
+
+            tarefaRepoMock.Verify(repo => repo.AddAsync(It.IsAny<Tarefa>()), Times.Once);
+            tarefaRepoMock.Verify(repo => repo.GetByIdAsync(It.IsAny<int>()), Times.Once);
+            tarefaRepoMock.Verify(repo => repo.UpdateAsync(It.IsAny<Tarefa>()), Times.AtMostOnce);
+        }
     }
 }
