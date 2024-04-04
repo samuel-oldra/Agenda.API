@@ -26,7 +26,7 @@ namespace Agenda.API.Repositories
 
         public async Task AddAsync(Contato entity)
         {
-            context.Contatos.Add(entity);
+            context.Contatos.AddAsync(entity);
 
             await context.SaveChangesAsync();
         }
@@ -43,6 +43,37 @@ namespace Agenda.API.Repositories
             context.Contatos.Remove(entity);
 
             await context.SaveChangesAsync();
+        }
+
+        public List<Contato> GetAll()
+        {
+            return context.Contatos.ToList();
+        }
+
+        public Contato GetById(int id)
+        {
+            return context.Contatos.SingleOrDefault(c => c.Id == id);
+        }
+
+        public void Add(Contato entity)
+        {
+            context.Contatos.Add(entity);
+
+            context.SaveChanges();
+        }
+
+        public void Update(Contato entity)
+        {
+            context.Contatos.Update(entity);
+
+            context.SaveChanges();
+        }
+
+        public void Delete(Contato entity)
+        {
+            context.Contatos.Remove(entity);
+
+            context.SaveChanges();
         }
 
         #region SOMENTE ESTUDO

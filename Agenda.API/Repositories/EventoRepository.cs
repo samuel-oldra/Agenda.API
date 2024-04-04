@@ -26,7 +26,7 @@ namespace Agenda.API.Repositories
 
         public async Task AddAsync(Evento entity)
         {
-            context.Eventos.Add(entity);
+            context.Eventos.AddAsync(entity);
 
             await context.SaveChangesAsync();
         }
@@ -43,6 +43,37 @@ namespace Agenda.API.Repositories
             context.Eventos.Remove(entity);
 
             await context.SaveChangesAsync();
+        }
+
+        public List<Evento> GetAll()
+        {
+            return context.Eventos.ToList();
+        }
+
+        public Evento GetById(int id)
+        {
+            return context.Eventos.SingleOrDefault(c => c.Id == id);
+        }
+
+        public void Add(Evento entity)
+        {
+            context.Eventos.Add(entity);
+
+            context.SaveChanges();
+        }
+
+        public void Update(Evento entity)
+        {
+            context.Eventos.Update(entity);
+
+            context.SaveChanges();
+        }
+
+        public void Delete(Evento entity)
+        {
+            context.Eventos.Remove(entity);
+
+            context.SaveChanges();
         }
     }
 }

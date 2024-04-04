@@ -13,5 +13,15 @@ namespace Agenda.API.Repositories.Interfaces
         Task UpdateAsync(Evento entity);
 
         Task DeleteAsync(Evento entity);
+
+        List<Evento> GetAll();
+
+        Evento GetById(int id);
+
+        void Add(Evento entity);
+
+        void Update(Evento entity);
+
+        void Delete(Evento entity);
     }
 }
