@@ -75,5 +75,62 @@ namespace Agenda.API.Services
 
             return mapper.Map<TarefaViewModel>(tarefa);
         }
+
+        public List<TarefaViewModel> GetAll()
+        {
+            var tarefas = this.repository.GetAll();
+
+            var tarefasViewModel = new List<TarefaViewModel>();
+
+            foreach (var tarefa in tarefas)
+                tarefasViewModel.Add(mapper.Map<TarefaViewModel>(tarefa));
+
+            return tarefasViewModel;
+        }
+
+        public TarefaViewModel GetById(int id)
+        {
+            var tarefa = this.repository.GetById(id);
+
+            if (tarefa == null)
+                return null;
+
+            return mapper.Map<TarefaViewModel>(tarefa);
+        }
+
+        public TarefaViewModel Add(TarefaPostInputModel model)
+        {
+            var tarefa = mapper.Map<Tarefa>(model);
+
+            this.repository.Add(tarefa);
+
+            return mapper.Map<TarefaViewModel>(tarefa);
+        }
+
+        public TarefaViewModel Update(int id, TarefaPutInputModel model)
+        {
+            var tarefa = this.repository.GetById(id);
+
+            if (tarefa == null)
+                return null;
+
+            tarefa.Update(model.Descricao, model.DataInicio, model.DataTermino, model.Prioridade);
+
+            this.repository.Update(tarefa);
+
+            return mapper.Map<TarefaViewModel>(tarefa);
+        }
+
+        public TarefaViewModel Delete(int id)
+        {
+            var tarefa = this.repository.GetById(id);
+
+            if (tarefa == null)
+                return null;
+
+            this.repository.Delete(tarefa);
+
+            return mapper.Map<TarefaViewModel>(tarefa);
+        }
     }
 }

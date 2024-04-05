@@ -13,5 +13,15 @@ namespace Agenda.API.Services.Interfaces
         Task<EventoViewModel> UpdateAsync(int id, EventoPutInputModel model);
 
         Task<EventoViewModel> DeleteAsync(int id);
+
+        List<EventoViewModel> GetAll();
+
+        EventoViewModel GetById(int id);
+
+        EventoViewModel Add(EventoPostInputModel model);
+
+        EventoViewModel Update(int id, EventoPutInputModel model);
+
+        EventoViewModel Delete(int id);
     }
 }
