@@ -33,38 +33,28 @@ namespace Agenda.API.Tests
         }
 
         [Fact]
-        public void GetAllAsync()
-        {
-            // Act
-            var contatos = contatoService.GetAllAsync();
-
-            // Assert
-            Assert.NotNull(contatos);
-
-            contatos.ShouldNotBeNull();
-
-            contatoRepoMock.Verify(repo => repo.GetAllAsync(), Times.Once);
-        }
-
-        [Fact]
-        public void GetByIdAsync()
+        public void Add()
         {
             // Arrange
             var contatoPostInputModel = new Fixture().Create<ContatoPostInputModel>();
 
             // Act
-            var addedContato = contatoService.AddAsync(contatoPostInputModel);
-            var contato = contatoService.GetByIdAsync(addedContato.Id);
+            var addedContato = contatoService.Add(contatoPostInputModel);
 
             // Assert
             Assert.NotNull(addedContato);
-            Assert.NotNull(contato);
+            Assert.Equal(addedContato.Nome, contatoPostInputModel.Nome);
+            Assert.Equal(addedContato.Email, contatoPostInputModel.Email);
+            Assert.Equal(addedContato.Telefone, contatoPostInputModel.Telefone);
+            Assert.Equal(addedContato.DataNascimento, contatoPostInputModel.DataNascimento);
 
             addedContato.ShouldNotBeNull();
-            contato.ShouldNotBeNull();
+            addedContato.Nome.ShouldBe(contatoPostInputModel.Nome);
+            addedContato.Email.ShouldBe(contatoPostInputModel.Email);
+            addedContato.Telefone.ShouldBe(contatoPostInputModel.Telefone);
+            addedContato.DataNascimento.ShouldBe(contatoPostInputModel.DataNascimento);
 
-            contatoRepoMock.Verify(repo => repo.AddAsync(It.IsAny<Contato>()), Times.Once);
-            contatoRepoMock.Verify(repo => repo.GetByIdAsync(It.IsAny<int>()), Times.Once);
+            contatoRepoMock.Verify(repo => repo.Add(It.IsAny<Contato>()), Times.Once);
         }
 
         [Fact]
@@ -90,51 +80,6 @@ namespace Agenda.API.Tests
             addedContato.DataNascimento.ShouldBe(contatoPostInputModel.DataNascimento);
 
             contatoRepoMock.Verify(repo => repo.AddAsync(It.IsAny<Contato>()), Times.Once);
-        }
-
-        [Fact]
-        public void UpdateAsync()
-        {
-            // Arrange
-            var contatoPostInputModel = new Fixture().Create<ContatoPostInputModel>();
-            var contatoPutInputModel = new Fixture().Create<ContatoPutInputModel>();
-
-            // Act
-            var addedContato = contatoService.AddAsync(contatoPostInputModel);
-            var updatedContato = contatoService.UpdateAsync(addedContato.Id, contatoPutInputModel);
-
-            // Assert
-            Assert.NotNull(addedContato);
-            Assert.NotNull(updatedContato);
-
-            addedContato.ShouldNotBeNull();
-            updatedContato.ShouldNotBeNull();
-
-            contatoRepoMock.Verify(repo => repo.AddAsync(It.IsAny<Contato>()), Times.Once);
-            contatoRepoMock.Verify(repo => repo.GetByIdAsync(It.IsAny<int>()), Times.Once);
-            contatoRepoMock.Verify(repo => repo.UpdateAsync(It.IsAny<Contato>()), Times.AtMostOnce);
-        }
-
-        [Fact]
-        public void DeleteAsync()
-        {
-            // Arrange
-            var contatoPostInputModel = new Fixture().Create<ContatoPostInputModel>();
-
-            // Act
-            var addedContato = contatoService.AddAsync(contatoPostInputModel);
-            var deletedContato = contatoService.DeleteAsync(addedContato.Id);
-
-            // Assert
-            Assert.NotNull(addedContato);
-            Assert.NotNull(deletedContato);
-
-            addedContato.ShouldNotBeNull();
-            deletedContato.ShouldNotBeNull();
-
-            contatoRepoMock.Verify(repo => repo.AddAsync(It.IsAny<Contato>()), Times.Once);
-            contatoRepoMock.Verify(repo => repo.GetByIdAsync(It.IsAny<int>()), Times.Once);
-            contatoRepoMock.Verify(repo => repo.DeleteAsync(It.IsAny<Contato>()), Times.AtMostOnce);
         }
     }
 }

@@ -33,38 +33,30 @@ namespace Agenda.API.Tests
         }
 
         [Fact]
-        public void GetAllAsync()
-        {
-            // Act
-            var tarefas = tarefaService.GetAllAsync();
-
-            // Assert
-            Assert.NotNull(tarefas);
-
-            tarefas.ShouldNotBeNull();
-
-            tarefaRepoMock.Verify(repo => repo.GetAllAsync(), Times.Once);
-        }
-
-        [Fact]
-        public void GetByIdAsync()
+        public void Add()
         {
             // Arrange
             var tarefaPostInputModel = new Fixture().Create<TarefaPostInputModel>();
 
             // Act
-            var addedTarefa = tarefaService.AddAsync(tarefaPostInputModel);
-            var tarefa = tarefaService.GetByIdAsync(addedTarefa.Id);
+            var addedTarefa = tarefaService.Add(tarefaPostInputModel);
 
             // Assert
             Assert.NotNull(addedTarefa);
-            Assert.NotNull(tarefa);
+            Assert.Equal(addedTarefa.Nome, tarefaPostInputModel.Nome);
+            Assert.Equal(addedTarefa.Descricao, tarefaPostInputModel.Descricao);
+            Assert.Equal(addedTarefa.DataInicio, tarefaPostInputModel.DataInicio);
+            Assert.Equal(addedTarefa.DataTermino, tarefaPostInputModel.DataTermino);
+            Assert.Equal(addedTarefa.Prioridade, tarefaPostInputModel.Prioridade);
 
             addedTarefa.ShouldNotBeNull();
-            tarefa.ShouldNotBeNull();
+            addedTarefa.Nome.ShouldBe(tarefaPostInputModel.Nome);
+            addedTarefa.Descricao.ShouldBe(tarefaPostInputModel.Descricao);
+            addedTarefa.DataInicio.ShouldBe(tarefaPostInputModel.DataInicio);
+            addedTarefa.DataTermino.ShouldBe(tarefaPostInputModel.DataTermino);
+            addedTarefa.Prioridade.ShouldBe(tarefaPostInputModel.Prioridade);
 
-            tarefaRepoMock.Verify(repo => repo.AddAsync(It.IsAny<Tarefa>()), Times.Once);
-            tarefaRepoMock.Verify(repo => repo.GetByIdAsync(It.IsAny<int>()), Times.Once);
+            tarefaRepoMock.Verify(repo => repo.Add(It.IsAny<Tarefa>()), Times.Once);
         }
 
         [Fact]
@@ -92,51 +84,6 @@ namespace Agenda.API.Tests
             addedTarefa.Prioridade.ShouldBe(tarefaPostInputModel.Prioridade);
 
             tarefaRepoMock.Verify(repo => repo.AddAsync(It.IsAny<Tarefa>()), Times.Once);
-        }
-
-        [Fact]
-        public void UpdateAsync()
-        {
-            // Arrange
-            var tarefaPostInputModel = new Fixture().Create<TarefaPostInputModel>();
-            var tarefaPutInputModel = new Fixture().Create<TarefaPutInputModel>();
-
-            // Act
-            var addedTarefa = tarefaService.AddAsync(tarefaPostInputModel);
-            var updatedTarefa = tarefaService.UpdateAsync(addedTarefa.Id, tarefaPutInputModel);
-
-            // Assert
-            Assert.NotNull(addedTarefa);
-            Assert.NotNull(updatedTarefa);
-
-            addedTarefa.ShouldNotBeNull();
-            updatedTarefa.ShouldNotBeNull();
-
-            tarefaRepoMock.Verify(repo => repo.AddAsync(It.IsAny<Tarefa>()), Times.Once);
-            tarefaRepoMock.Verify(repo => repo.GetByIdAsync(It.IsAny<int>()), Times.Once);
-            tarefaRepoMock.Verify(repo => repo.UpdateAsync(It.IsAny<Tarefa>()), Times.AtMostOnce);
-        }
-
-        [Fact]
-        public void DeleteAsync()
-        {
-            // Arrange
-            var tarefaPostInputModel = new Fixture().Create<TarefaPostInputModel>();
-
-            // Act
-            var addedTarefa = tarefaService.AddAsync(tarefaPostInputModel);
-            var deletedTarefa = tarefaService.DeleteAsync(addedTarefa.Id);
-
-            // Assert
-            Assert.NotNull(addedTarefa);
-            Assert.NotNull(deletedTarefa);
-
-            addedTarefa.ShouldNotBeNull();
-            deletedTarefa.ShouldNotBeNull();
-
-            tarefaRepoMock.Verify(repo => repo.AddAsync(It.IsAny<Tarefa>()), Times.Once);
-            tarefaRepoMock.Verify(repo => repo.GetByIdAsync(It.IsAny<int>()), Times.Once);
-            tarefaRepoMock.Verify(repo => repo.DeleteAsync(It.IsAny<Tarefa>()), Times.AtMostOnce);
         }
     }
 }

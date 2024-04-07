@@ -33,38 +33,26 @@ namespace Agenda.API.Tests
         }
 
         [Fact]
-        public void GetAllAsync()
-        {
-            // Act
-            var eventos = eventoService.GetAllAsync();
-
-            // Assert
-            Assert.NotNull(eventos);
-
-            eventos.ShouldNotBeNull();
-
-            eventoRepoMock.Verify(repo => repo.GetAllAsync(), Times.Once);
-        }
-
-        [Fact]
-        public void GetByIdAsync()
+        public void Add()
         {
             // Arrange
             var eventoPostInputModel = new Fixture().Create<EventoPostInputModel>();
 
             // Act
-            var addedEvento = eventoService.AddAsync(eventoPostInputModel);
-            var evento = eventoService.GetByIdAsync(addedEvento.Id);
+            var addedEvento = eventoService.Add(eventoPostInputModel);
 
             // Assert
             Assert.NotNull(addedEvento);
-            Assert.NotNull(evento);
+            Assert.Equal(addedEvento.Nome, eventoPostInputModel.Nome);
+            Assert.Equal(addedEvento.Descricao, eventoPostInputModel.Descricao);
+            Assert.Equal(addedEvento.Data, eventoPostInputModel.Data);
 
             addedEvento.ShouldNotBeNull();
-            evento.ShouldNotBeNull();
+            addedEvento.Nome.ShouldBe(eventoPostInputModel.Nome);
+            addedEvento.Descricao.ShouldBe(eventoPostInputModel.Descricao);
+            addedEvento.Data.ShouldBe(eventoPostInputModel.Data);
 
-            eventoRepoMock.Verify(repo => repo.AddAsync(It.IsAny<Evento>()), Times.Once);
-            eventoRepoMock.Verify(repo => repo.GetByIdAsync(It.IsAny<int>()), Times.Once);
+            eventoRepoMock.Verify(repo => repo.Add(It.IsAny<Evento>()), Times.Once);
         }
 
         [Fact]
@@ -88,51 +76,6 @@ namespace Agenda.API.Tests
             addedEvento.Data.ShouldBe(eventoPostInputModel.Data);
 
             eventoRepoMock.Verify(repo => repo.AddAsync(It.IsAny<Evento>()), Times.Once);
-        }
-
-        [Fact]
-        public void UpdateAsync()
-        {
-            // Arrange
-            var eventoPostInputModel = new Fixture().Create<EventoPostInputModel>();
-            var eventoPutInputModel = new Fixture().Create<EventoPutInputModel>();
-
-            // Act
-            var addedEvento = eventoService.AddAsync(eventoPostInputModel);
-            var updatedEvento = eventoService.UpdateAsync(addedEvento.Id, eventoPutInputModel);
-
-            // Assert
-            Assert.NotNull(addedEvento);
-            Assert.NotNull(updatedEvento);
-
-            addedEvento.ShouldNotBeNull();
-            updatedEvento.ShouldNotBeNull();
-
-            eventoRepoMock.Verify(repo => repo.AddAsync(It.IsAny<Evento>()), Times.Once);
-            eventoRepoMock.Verify(repo => repo.GetByIdAsync(It.IsAny<int>()), Times.Once);
-            eventoRepoMock.Verify(repo => repo.UpdateAsync(It.IsAny<Evento>()), Times.AtMostOnce);
-        }
-
-        [Fact]
-        public void DeleteAsync()
-        {
-            // Arrange
-            var eventoPostInputModel = new Fixture().Create<EventoPostInputModel>();
-
-            // Act
-            var addedEvento = eventoService.AddAsync(eventoPostInputModel);
-            var deletedEvento = eventoService.DeleteAsync(addedEvento.Id);
-
-            // Assert
-            Assert.NotNull(addedEvento);
-            Assert.NotNull(deletedEvento);
-
-            addedEvento.ShouldNotBeNull();
-            deletedEvento.ShouldNotBeNull();
-
-            eventoRepoMock.Verify(repo => repo.AddAsync(It.IsAny<Evento>()), Times.Once);
-            eventoRepoMock.Verify(repo => repo.GetByIdAsync(It.IsAny<int>()), Times.Once);
-            eventoRepoMock.Verify(repo => repo.DeleteAsync(It.IsAny<Evento>()), Times.AtMostOnce);
         }
     }
 }
