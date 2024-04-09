@@ -76,6 +76,16 @@ namespace Agenda.API.Services
             return mapper.Map<ContatoViewModel>(contato);
         }
 
+        public async Task<bool> DeleteAllAsync()
+        {
+            var contatos = await this.repository.GetAllAsync();
+
+            foreach (var contato in contatos)
+                await this.repository.DeleteAsync(contato);
+
+            return true;
+        }
+
         public List<ContatoViewModel> GetAll()
         {
             var contatos = this.repository.GetAll();
@@ -131,6 +141,16 @@ namespace Agenda.API.Services
             this.repository.Delete(contato);
 
             return mapper.Map<ContatoViewModel>(contato);
+        }
+
+        public bool DeleteAll()
+        {
+            var contatos = this.repository.GetAll();
+
+            foreach (var contato in contatos)
+                this.repository.Delete(contato);
+
+            return true;
         }
     }
 }

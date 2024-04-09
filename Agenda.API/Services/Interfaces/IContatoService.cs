@@ -14,6 +14,8 @@ namespace Agenda.API.Services.Interfaces
 
         Task<ContatoViewModel> DeleteAsync(int id);
 
+        Task<bool> DeleteAllAsync();
+
         List<ContatoViewModel> GetAll();
 
         ContatoViewModel GetById(int id);
@@ -23,5 +25,7 @@ namespace Agenda.API.Services.Interfaces
         ContatoViewModel Update(int id, ContatoPutInputModel model);
 
         ContatoViewModel Delete(int id);
+
+        bool DeleteAll();
     }
 }
