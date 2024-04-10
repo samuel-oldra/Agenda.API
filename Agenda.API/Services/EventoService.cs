@@ -76,6 +76,16 @@ namespace Agenda.API.Services
             return mapper.Map<EventoViewModel>(evento);
         }
 
+        public async Task<bool> DeleteAllAsync()
+        {
+            var eventos = await this.repository.GetAllAsync();
+
+            foreach (var evento in eventos)
+                await this.repository.DeleteAsync(evento);
+
+            return true;
+        }
+
         public List<EventoViewModel> GetAll()
         {
             var eventos = this.repository.GetAll();
@@ -131,6 +141,16 @@ namespace Agenda.API.Services
             this.repository.Delete(evento);
 
             return mapper.Map<EventoViewModel>(evento);
+        }
+
+        public bool DeleteAll()
+        {
+            var eventos = this.repository.GetAll();
+
+            foreach (var evento in eventos)
+                this.repository.Delete(evento);
+
+            return true;
         }
     }
 }
