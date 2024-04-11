@@ -14,6 +14,8 @@ namespace Agenda.API.Services.Interfaces
 
         Task<TarefaViewModel> DeleteAsync(int id);
 
+        Task<bool> DeleteAllAsync();
+
         List<TarefaViewModel> GetAll();
 
         TarefaViewModel GetById(int id);
@@ -23,5 +25,7 @@ namespace Agenda.API.Services.Interfaces
         TarefaViewModel Update(int id, TarefaPutInputModel model);
 
         TarefaViewModel Delete(int id);
+
+        bool DeleteAll();
     }
 }
