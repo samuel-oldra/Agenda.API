@@ -80,7 +80,7 @@ namespace Agenda.API.Tests
 
             // Assert
             Assert.NotNull(tarefa);
-            Assert.True(tarefa.Id > 0);
+            Assert.Equal(tarefa.Id, addedTarefa.Id);
             Assert.Equal(tarefa.Nome, tarefaPostInputModel.Nome);
             Assert.Equal(tarefa.Descricao, tarefaPostInputModel.Descricao);
             Assert.Equal(tarefa.DataInicio, tarefaPostInputModel.DataInicio);
@@ -88,7 +88,7 @@ namespace Agenda.API.Tests
             Assert.Equal(tarefa.Prioridade, tarefaPostInputModel.Prioridade);
 
             tarefa.ShouldNotBeNull();
-            tarefa.Id.ShouldNotBe(0);
+            tarefa.Id.ShouldBe(addedTarefa.Id);
             tarefa.Nome.ShouldBe(tarefaPostInputModel.Nome);
             tarefa.Descricao.ShouldBe(tarefaPostInputModel.Descricao);
             tarefa.DataInicio.ShouldBe(tarefaPostInputModel.DataInicio);
@@ -136,7 +136,7 @@ namespace Agenda.API.Tests
 
             // Assert
             Assert.NotNull(tarefa);
-            Assert.True(tarefa.Id > 0);
+            Assert.Equal(tarefa.Id, addedTarefa.Id);
             Assert.Equal(tarefa.Nome, tarefaPostInputModel.Nome);
             Assert.Equal(tarefa.Descricao, tarefaPutInputModel.Descricao);
             Assert.Equal(tarefa.DataInicio, tarefaPutInputModel.DataInicio);
@@ -144,7 +144,7 @@ namespace Agenda.API.Tests
             Assert.Equal(tarefa.Prioridade, tarefaPutInputModel.Prioridade);
 
             tarefa.ShouldNotBeNull();
-            tarefa.Id.ShouldNotBe(0);
+            tarefa.Id.ShouldBe(addedTarefa.Id);
             tarefa.Nome.ShouldBe(tarefaPostInputModel.Nome);
             tarefa.Descricao.ShouldBe(tarefaPutInputModel.Descricao);
             tarefa.DataInicio.ShouldBe(tarefaPutInputModel.DataInicio);
@@ -167,13 +167,13 @@ namespace Agenda.API.Tests
             Assert.NotNull(addedTarefa);
             Assert.True(addedTarefa.Id > 0);
             Assert.NotNull(deletedTarefa);
-            Assert.True(deletedTarefa.Id > 0);
+            Assert.Equal(deletedTarefa.Id, addedTarefa.Id);
             Assert.Null(tarefa);
 
             addedTarefa.ShouldNotBeNull();
             addedTarefa.Id.ShouldNotBe(0);
             deletedTarefa.ShouldNotBeNull();
-            deletedTarefa.Id.ShouldNotBe(0);
+            deletedTarefa.Id.ShouldBe(addedTarefa.Id);
             tarefa.ShouldBeNull();
         }
 
@@ -218,7 +218,7 @@ namespace Agenda.API.Tests
 
             // Assert
             Assert.NotNull(tarefa);
-            Assert.True(tarefa.Id > 0);
+            Assert.Equal(tarefa.Id, addedTarefa.Id);
             Assert.Equal(tarefa.Nome, tarefaPostInputModel.Nome);
             Assert.Equal(tarefa.Descricao, tarefaPostInputModel.Descricao);
             Assert.Equal(tarefa.DataInicio, tarefaPostInputModel.DataInicio);
@@ -226,7 +226,7 @@ namespace Agenda.API.Tests
             Assert.Equal(tarefa.Prioridade, tarefaPostInputModel.Prioridade);
 
             tarefa.ShouldNotBeNull();
-            tarefa.Id.ShouldNotBe(0);
+            tarefa.Id.ShouldBe(addedTarefa.Id);
             tarefa.Nome.ShouldBe(tarefaPostInputModel.Nome);
             tarefa.Descricao.ShouldBe(tarefaPostInputModel.Descricao);
             tarefa.DataInicio.ShouldBe(tarefaPostInputModel.DataInicio);
@@ -274,7 +274,7 @@ namespace Agenda.API.Tests
 
             // Assert
             Assert.NotNull(tarefa);
-            Assert.True(tarefa.Id > 0);
+            Assert.Equal(tarefa.Id, addedTarefa.Id);
             Assert.Equal(tarefa.Nome, tarefaPostInputModel.Nome);
             Assert.Equal(tarefa.Descricao, tarefaPutInputModel.Descricao);
             Assert.Equal(tarefa.DataInicio, tarefaPutInputModel.DataInicio);
@@ -282,7 +282,7 @@ namespace Agenda.API.Tests
             Assert.Equal(tarefa.Prioridade, tarefaPutInputModel.Prioridade);
 
             tarefa.ShouldNotBeNull();
-            tarefa.Id.ShouldNotBe(0);
+            tarefa.Id.ShouldBe(addedTarefa.Id);
             tarefa.Nome.ShouldBe(tarefaPostInputModel.Nome);
             tarefa.Descricao.ShouldBe(tarefaPutInputModel.Descricao);
             tarefa.DataInicio.ShouldBe(tarefaPutInputModel.DataInicio);
@@ -305,13 +305,13 @@ namespace Agenda.API.Tests
             Assert.NotNull(addedTarefa);
             Assert.True(addedTarefa.Id > 0);
             Assert.NotNull(deletedTarefa);
-            Assert.True(deletedTarefa.Id > 0);
+            Assert.Equal(deletedTarefa.Id, addedTarefa.Id);
             Assert.Null(tarefa);
 
             addedTarefa.ShouldNotBeNull();
             addedTarefa.Id.ShouldNotBe(0);
             deletedTarefa.ShouldNotBeNull();
-            deletedTarefa.Id.ShouldNotBe(0);
+            deletedTarefa.Id.ShouldBe(addedTarefa.Id);
             tarefa.ShouldBeNull();
         }
     }

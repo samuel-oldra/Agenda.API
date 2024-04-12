@@ -80,14 +80,14 @@ namespace Agenda.API.Tests
 
             // Assert
             Assert.NotNull(contato);
-            Assert.True(contato.Id > 0);
+            Assert.Equal(contato.Id, addedContato.Id);
             Assert.Equal(contato.Nome, contatoPostInputModel.Nome);
             Assert.Equal(contato.Email, contatoPostInputModel.Email);
             Assert.Equal(contato.Telefone, contatoPostInputModel.Telefone);
             Assert.Equal(contato.DataNascimento, contatoPostInputModel.DataNascimento);
 
             contato.ShouldNotBeNull();
-            contato.Id.ShouldNotBe(0);
+            contato.Id.ShouldBe(addedContato.Id);
             contato.Nome.ShouldBe(contatoPostInputModel.Nome);
             contato.Email.ShouldBe(contatoPostInputModel.Email);
             contato.Telefone.ShouldBe(contatoPostInputModel.Telefone);
@@ -132,14 +132,14 @@ namespace Agenda.API.Tests
 
             // Assert
             Assert.NotNull(contato);
-            Assert.True(contato.Id > 0);
+            Assert.Equal(contato.Id, addedContato.Id);
             Assert.Equal(contato.Nome, contatoPostInputModel.Nome);
             Assert.Equal(contato.Email, contatoPutInputModel.Email);
             Assert.Equal(contato.Telefone, contatoPutInputModel.Telefone);
             Assert.Equal(contato.DataNascimento, contatoPutInputModel.DataNascimento);
 
             contato.ShouldNotBeNull();
-            contato.Id.ShouldNotBe(0);
+            contato.Id.ShouldBe(addedContato.Id);
             contato.Nome.ShouldBe(contatoPostInputModel.Nome);
             contato.Email.ShouldBe(contatoPutInputModel.Email);
             contato.Telefone.ShouldBe(contatoPutInputModel.Telefone);
@@ -161,13 +161,13 @@ namespace Agenda.API.Tests
             Assert.NotNull(addedContato);
             Assert.True(addedContato.Id > 0);
             Assert.NotNull(deletedContato);
-            Assert.True(deletedContato.Id > 0);
+            Assert.Equal(deletedContato.Id, addedContato.Id);
             Assert.Null(contato);
 
             addedContato.ShouldNotBeNull();
             addedContato.Id.ShouldNotBe(0);
             deletedContato.ShouldNotBeNull();
-            deletedContato.Id.ShouldNotBe(0);
+            deletedContato.Id.ShouldBe(addedContato.Id);
             contato.ShouldBeNull();
         }
 
@@ -212,14 +212,14 @@ namespace Agenda.API.Tests
 
             // Assert
             Assert.NotNull(contato);
-            Assert.True(contato.Id > 0);
+            Assert.Equal(contato.Id, addedContato.Id);
             Assert.Equal(contato.Nome, contatoPostInputModel.Nome);
             Assert.Equal(contato.Email, contatoPostInputModel.Email);
             Assert.Equal(contato.Telefone, contatoPostInputModel.Telefone);
             Assert.Equal(contato.DataNascimento, contatoPostInputModel.DataNascimento);
 
             contato.ShouldNotBeNull();
-            contato.Id.ShouldNotBe(0);
+            contato.Id.ShouldBe(addedContato.Id);
             contato.Nome.ShouldBe(contatoPostInputModel.Nome);
             contato.Email.ShouldBe(contatoPostInputModel.Email);
             contato.Telefone.ShouldBe(contatoPostInputModel.Telefone);
@@ -264,14 +264,14 @@ namespace Agenda.API.Tests
 
             // Assert
             Assert.NotNull(contato);
-            Assert.True(contato.Id > 0);
+            Assert.Equal(contato.Id, addedContato.Id);
             Assert.Equal(contato.Nome, contatoPostInputModel.Nome);
             Assert.Equal(contato.Email, contatoPutInputModel.Email);
             Assert.Equal(contato.Telefone, contatoPutInputModel.Telefone);
             Assert.Equal(contato.DataNascimento, contatoPutInputModel.DataNascimento);
 
             contato.ShouldNotBeNull();
-            contato.Id.ShouldNotBe(0);
+            contato.Id.ShouldBe(addedContato.Id);
             contato.Nome.ShouldBe(contatoPostInputModel.Nome);
             contato.Email.ShouldBe(contatoPutInputModel.Email);
             contato.Telefone.ShouldBe(contatoPutInputModel.Telefone);
@@ -293,13 +293,13 @@ namespace Agenda.API.Tests
             Assert.NotNull(addedContato);
             Assert.True(addedContato.Id > 0);
             Assert.NotNull(deletedContato);
-            Assert.True(deletedContato.Id > 0);
+            Assert.Equal(deletedContato.Id, addedContato.Id);
             Assert.Null(contato);
 
             addedContato.ShouldNotBeNull();
             addedContato.Id.ShouldNotBe(0);
             deletedContato.ShouldNotBeNull();
-            deletedContato.Id.ShouldNotBe(0);
+            deletedContato.Id.ShouldBe(addedContato.Id);
             contato.ShouldBeNull();
         }
     }

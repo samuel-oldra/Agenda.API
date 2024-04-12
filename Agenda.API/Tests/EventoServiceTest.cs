@@ -80,13 +80,13 @@ namespace Agenda.API.Tests
 
             // Assert
             Assert.NotNull(evento);
-            Assert.True(evento.Id > 0);
+            Assert.Equal(evento.Id, addedEvento.Id);
             Assert.Equal(evento.Nome, eventoPostInputModel.Nome);
             Assert.Equal(evento.Descricao, eventoPostInputModel.Descricao);
             Assert.Equal(evento.Data, eventoPostInputModel.Data);
 
             evento.ShouldNotBeNull();
-            evento.Id.ShouldNotBe(0);
+            evento.Id.ShouldBe(addedEvento.Id);
             evento.Nome.ShouldBe(eventoPostInputModel.Nome);
             evento.Descricao.ShouldBe(eventoPostInputModel.Descricao);
             evento.Data.ShouldBe(eventoPostInputModel.Data);
@@ -128,13 +128,13 @@ namespace Agenda.API.Tests
 
             // Assert
             Assert.NotNull(evento);
-            Assert.True(evento.Id > 0);
+            Assert.Equal(evento.Id, addedEvento.Id);
             Assert.Equal(evento.Nome, eventoPostInputModel.Nome);
             Assert.Equal(evento.Descricao, eventoPutInputModel.Descricao);
             Assert.Equal(evento.Data, eventoPutInputModel.Data);
 
             evento.ShouldNotBeNull();
-            evento.Id.ShouldNotBe(0);
+            evento.Id.ShouldBe(addedEvento.Id);
             evento.Nome.ShouldBe(eventoPostInputModel.Nome);
             evento.Descricao.ShouldBe(eventoPutInputModel.Descricao);
             evento.Data.ShouldBe(eventoPutInputModel.Data);
@@ -155,13 +155,13 @@ namespace Agenda.API.Tests
             Assert.NotNull(addedEvento);
             Assert.True(addedEvento.Id > 0);
             Assert.NotNull(deletedEvento);
-            Assert.True(deletedEvento.Id > 0);
+            Assert.Equal(deletedEvento.Id, addedEvento.Id);
             Assert.Null(evento);
 
             addedEvento.ShouldNotBeNull();
             addedEvento.Id.ShouldNotBe(0);
             deletedEvento.ShouldNotBeNull();
-            deletedEvento.Id.ShouldNotBe(0);
+            deletedEvento.Id.ShouldBe(addedEvento.Id);
             evento.ShouldBeNull();
         }
 
@@ -206,13 +206,13 @@ namespace Agenda.API.Tests
 
             // Assert
             Assert.NotNull(evento);
-            Assert.True(evento.Id > 0);
+            Assert.Equal(evento.Id, addedEvento.Id);
             Assert.Equal(evento.Nome, eventoPostInputModel.Nome);
             Assert.Equal(evento.Descricao, eventoPostInputModel.Descricao);
             Assert.Equal(evento.Data, eventoPostInputModel.Data);
 
             evento.ShouldNotBeNull();
-            evento.Id.ShouldNotBe(0);
+            evento.Id.ShouldBe(addedEvento.Id);
             evento.Nome.ShouldBe(eventoPostInputModel.Nome);
             evento.Descricao.ShouldBe(eventoPostInputModel.Descricao);
             evento.Data.ShouldBe(eventoPostInputModel.Data);
@@ -254,13 +254,13 @@ namespace Agenda.API.Tests
 
             // Assert
             Assert.NotNull(evento);
-            Assert.True(evento.Id > 0);
+            Assert.Equal(evento.Id, addedEvento.Id);
             Assert.Equal(evento.Nome, eventoPostInputModel.Nome);
             Assert.Equal(evento.Descricao, eventoPutInputModel.Descricao);
             Assert.Equal(evento.Data, eventoPutInputModel.Data);
 
             evento.ShouldNotBeNull();
-            evento.Id.ShouldNotBe(0);
+            evento.Id.ShouldBe(addedEvento.Id);
             evento.Nome.ShouldBe(eventoPostInputModel.Nome);
             evento.Descricao.ShouldBe(eventoPutInputModel.Descricao);
             evento.Data.ShouldBe(eventoPutInputModel.Data);
@@ -281,13 +281,13 @@ namespace Agenda.API.Tests
             Assert.NotNull(addedEvento);
             Assert.True(addedEvento.Id > 0);
             Assert.NotNull(deletedEvento);
-            Assert.True(deletedEvento.Id > 0);
+            Assert.Equal(deletedEvento.Id, addedEvento.Id);
             Assert.Null(evento);
 
             addedEvento.ShouldNotBeNull();
             addedEvento.Id.ShouldNotBe(0);
             deletedEvento.ShouldNotBeNull();
-            deletedEvento.Id.ShouldNotBe(0);
+            deletedEvento.Id.ShouldBe(addedEvento.Id);
             evento.ShouldBeNull();
         }
     }
