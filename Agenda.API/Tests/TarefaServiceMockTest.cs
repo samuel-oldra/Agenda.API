@@ -56,7 +56,21 @@ namespace Agenda.API.Tests
             addedTarefa.DataTermino.ShouldBe(tarefaPostInputModel.DataTermino);
             addedTarefa.Prioridade.ShouldBe(tarefaPostInputModel.Prioridade);
 
-            tarefaRepoMock.Verify(repo => repo.AddAsync(It.IsAny<Tarefa>()), Times.Once);
+            tarefaRepoMock.Verify(rep => rep.AddAsync(It.IsAny<Tarefa>()), Times.Once);
+        }
+
+        [Fact]
+        public async void UpdateAsync()
+        {
+            // Arrange
+            var tarefaPutInputModel = new Fixture().Create<TarefaPutInputModel>();
+
+            // Act
+            var updatedTarefa = await tarefaService.UpdateAsync(0, tarefaPutInputModel);
+
+            // Assert
+            tarefaRepoMock.Verify(rep => rep.GetByIdAsync(It.IsAny<int>()), Times.Once);
+            tarefaRepoMock.Verify(rep => rep.UpdateAsync(It.IsAny<Tarefa>()), Times.AtMostOnce());
         }
 
         [Fact]
@@ -83,7 +97,21 @@ namespace Agenda.API.Tests
             addedTarefa.DataTermino.ShouldBe(tarefaPostInputModel.DataTermino);
             addedTarefa.Prioridade.ShouldBe(tarefaPostInputModel.Prioridade);
 
-            tarefaRepoMock.Verify(repo => repo.Add(It.IsAny<Tarefa>()), Times.Once);
+            tarefaRepoMock.Verify(rep => rep.Add(It.IsAny<Tarefa>()), Times.Once);
+        }
+
+        [Fact]
+        public void Update()
+        {
+            // Arrange
+            var tarefaPutInputModel = new Fixture().Create<TarefaPutInputModel>();
+
+            // Act
+            var updatedTarefa = tarefaService.Update(0, tarefaPutInputModel);
+
+            // Assert
+            tarefaRepoMock.Verify(rep => rep.GetById(It.IsAny<int>()), Times.Once);
+            tarefaRepoMock.Verify(rep => rep.Update(It.IsAny<Tarefa>()), Times.AtMostOnce());
         }
     }
 }

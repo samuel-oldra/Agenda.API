@@ -52,7 +52,21 @@ namespace Agenda.API.Tests
             addedEvento.Descricao.ShouldBe(eventoPostInputModel.Descricao);
             addedEvento.Data.ShouldBe(eventoPostInputModel.Data);
 
-            eventoRepoMock.Verify(repo => repo.AddAsync(It.IsAny<Evento>()), Times.Once);
+            eventoRepoMock.Verify(rep => rep.AddAsync(It.IsAny<Evento>()), Times.Once);
+        }
+
+        [Fact]
+        public async void UpdateAsync()
+        {
+            // Arrange
+            var eventoPutInputModel = new Fixture().Create<EventoPutInputModel>();
+
+            // Act
+            var updatedEvento = await eventoService.UpdateAsync(0, eventoPutInputModel);
+
+            // Assert
+            eventoRepoMock.Verify(rep => rep.GetByIdAsync(It.IsAny<int>()), Times.Once);
+            eventoRepoMock.Verify(rep => rep.UpdateAsync(It.IsAny<Evento>()), Times.AtMostOnce());
         }
 
         [Fact]
@@ -75,7 +89,21 @@ namespace Agenda.API.Tests
             addedEvento.Descricao.ShouldBe(eventoPostInputModel.Descricao);
             addedEvento.Data.ShouldBe(eventoPostInputModel.Data);
 
-            eventoRepoMock.Verify(repo => repo.Add(It.IsAny<Evento>()), Times.Once);
+            eventoRepoMock.Verify(rep => rep.Add(It.IsAny<Evento>()), Times.Once);
+        }
+
+        [Fact]
+        public void Update()
+        {
+            // Arrange
+            var eventoPutInputModel = new Fixture().Create<EventoPutInputModel>();
+
+            // Act
+            var updatedEvento = eventoService.Update(0, eventoPutInputModel);
+
+            // Assert
+            eventoRepoMock.Verify(rep => rep.GetById(It.IsAny<int>()), Times.Once);
+            eventoRepoMock.Verify(rep => rep.Update(It.IsAny<Evento>()), Times.AtMostOnce());
         }
     }
 }

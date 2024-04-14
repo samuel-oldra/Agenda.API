@@ -54,7 +54,21 @@ namespace Agenda.API.Tests
             addedContato.Telefone.ShouldBe(contatoPostInputModel.Telefone);
             addedContato.DataNascimento.ShouldBe(contatoPostInputModel.DataNascimento);
 
-            contatoRepoMock.Verify(repo => repo.AddAsync(It.IsAny<Contato>()), Times.Once);
+            contatoRepoMock.Verify(rep => rep.AddAsync(It.IsAny<Contato>()), Times.Once);
+        }
+
+        [Fact]
+        public async void UpdateAsync()
+        {
+            // Arrange
+            var contatoPutInputModel = new Fixture().Create<ContatoPutInputModel>();
+
+            // Act
+            var updatedContato = await contatoService.UpdateAsync(0, contatoPutInputModel);
+
+            // Assert
+            contatoRepoMock.Verify(rep => rep.GetByIdAsync(It.IsAny<int>()), Times.Once);
+            contatoRepoMock.Verify(rep => rep.UpdateAsync(It.IsAny<Contato>()), Times.AtMostOnce());
         }
 
         [Fact]
@@ -79,7 +93,21 @@ namespace Agenda.API.Tests
             addedContato.Telefone.ShouldBe(contatoPostInputModel.Telefone);
             addedContato.DataNascimento.ShouldBe(contatoPostInputModel.DataNascimento);
 
-            contatoRepoMock.Verify(repo => repo.Add(It.IsAny<Contato>()), Times.Once);
+            contatoRepoMock.Verify(rep => rep.Add(It.IsAny<Contato>()), Times.Once);
+        }
+
+        [Fact]
+        public void Update()
+        {
+            // Arrange
+            var contatoPutInputModel = new Fixture().Create<ContatoPutInputModel>();
+
+            // Act
+            var updatedContato = contatoService.Update(0, contatoPutInputModel);
+
+            // Assert
+            contatoRepoMock.Verify(rep => rep.GetById(It.IsAny<int>()), Times.Once);
+            contatoRepoMock.Verify(rep => rep.Update(It.IsAny<Contato>()), Times.AtMostOnce());
         }
     }
 }
