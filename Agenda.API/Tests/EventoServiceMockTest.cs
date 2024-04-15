@@ -59,14 +59,29 @@ namespace Agenda.API.Tests
         public async void UpdateAsync()
         {
             // Arrange
+            var id = new Fixture().Create<int>();
             var eventoPutInputModel = new Fixture().Create<EventoPutInputModel>();
 
             // Act
-            var updatedEvento = await eventoService.UpdateAsync(0, eventoPutInputModel);
+            var updatedEvento = await eventoService.UpdateAsync(id, eventoPutInputModel);
 
             // Assert
             eventoRepoMock.Verify(rep => rep.GetByIdAsync(It.IsAny<int>()), Times.Once);
             eventoRepoMock.Verify(rep => rep.UpdateAsync(It.IsAny<Evento>()), Times.AtMostOnce());
+        }
+
+        [Fact]
+        public async void DeleteAsync()
+        {
+            // Arrange
+            var id = new Fixture().Create<int>();
+
+            // Act
+            var deletedEvento = await eventoService.DeleteAsync(id);
+
+            // Assert
+            eventoRepoMock.Verify(rep => rep.GetByIdAsync(It.IsAny<int>()), Times.Once);
+            eventoRepoMock.Verify(rep => rep.DeleteAsync(It.IsAny<Evento>()), Times.AtMostOnce());
         }
 
         [Fact]
@@ -96,14 +111,29 @@ namespace Agenda.API.Tests
         public void Update()
         {
             // Arrange
+            var id = new Fixture().Create<int>();
             var eventoPutInputModel = new Fixture().Create<EventoPutInputModel>();
 
             // Act
-            var updatedEvento = eventoService.Update(0, eventoPutInputModel);
+            var updatedEvento = eventoService.Update(id, eventoPutInputModel);
 
             // Assert
             eventoRepoMock.Verify(rep => rep.GetById(It.IsAny<int>()), Times.Once);
             eventoRepoMock.Verify(rep => rep.Update(It.IsAny<Evento>()), Times.AtMostOnce());
+        }
+
+        [Fact]
+        public void Delete()
+        {
+            // Arrange
+            var id = new Fixture().Create<int>();
+
+            // Act
+            var deletedEvento = eventoService.Delete(id);
+
+            // Assert
+            eventoRepoMock.Verify(rep => rep.GetById(It.IsAny<int>()), Times.Once);
+            eventoRepoMock.Verify(rep => rep.Delete(It.IsAny<Evento>()), Times.AtMostOnce());
         }
     }
 }

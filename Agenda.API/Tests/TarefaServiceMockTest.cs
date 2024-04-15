@@ -63,14 +63,29 @@ namespace Agenda.API.Tests
         public async void UpdateAsync()
         {
             // Arrange
+            var id = new Fixture().Create<int>();
             var tarefaPutInputModel = new Fixture().Create<TarefaPutInputModel>();
 
             // Act
-            var updatedTarefa = await tarefaService.UpdateAsync(0, tarefaPutInputModel);
+            var updatedTarefa = await tarefaService.UpdateAsync(id, tarefaPutInputModel);
 
             // Assert
             tarefaRepoMock.Verify(rep => rep.GetByIdAsync(It.IsAny<int>()), Times.Once);
             tarefaRepoMock.Verify(rep => rep.UpdateAsync(It.IsAny<Tarefa>()), Times.AtMostOnce());
+        }
+
+        [Fact]
+        public async void DeleteAsync()
+        {
+            // Arrange
+            var id = new Fixture().Create<int>();
+
+            // Act
+            var deletedTarefa = await tarefaService.DeleteAsync(id);
+
+            // Assert
+            tarefaRepoMock.Verify(rep => rep.GetByIdAsync(It.IsAny<int>()), Times.Once);
+            tarefaRepoMock.Verify(rep => rep.DeleteAsync(It.IsAny<Tarefa>()), Times.AtMostOnce());
         }
 
         [Fact]
@@ -104,14 +119,29 @@ namespace Agenda.API.Tests
         public void Update()
         {
             // Arrange
+            var id = new Fixture().Create<int>();
             var tarefaPutInputModel = new Fixture().Create<TarefaPutInputModel>();
 
             // Act
-            var updatedTarefa = tarefaService.Update(0, tarefaPutInputModel);
+            var updatedTarefa = tarefaService.Update(id, tarefaPutInputModel);
 
             // Assert
             tarefaRepoMock.Verify(rep => rep.GetById(It.IsAny<int>()), Times.Once);
             tarefaRepoMock.Verify(rep => rep.Update(It.IsAny<Tarefa>()), Times.AtMostOnce());
+        }
+
+        [Fact]
+        public void Delete()
+        {
+            // Arrange
+            var id = new Fixture().Create<int>();
+
+            // Act
+            var deletedTarefa = tarefaService.Delete(id);
+
+            // Assert
+            tarefaRepoMock.Verify(rep => rep.GetById(It.IsAny<int>()), Times.Once);
+            tarefaRepoMock.Verify(rep => rep.Delete(It.IsAny<Tarefa>()), Times.AtMostOnce());
         }
     }
 }

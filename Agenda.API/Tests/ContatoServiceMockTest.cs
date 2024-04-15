@@ -61,14 +61,29 @@ namespace Agenda.API.Tests
         public async void UpdateAsync()
         {
             // Arrange
+            var id = new Fixture().Create<int>();
             var contatoPutInputModel = new Fixture().Create<ContatoPutInputModel>();
 
             // Act
-            var updatedContato = await contatoService.UpdateAsync(0, contatoPutInputModel);
+            var updatedContato = await contatoService.UpdateAsync(id, contatoPutInputModel);
 
             // Assert
             contatoRepoMock.Verify(rep => rep.GetByIdAsync(It.IsAny<int>()), Times.Once);
             contatoRepoMock.Verify(rep => rep.UpdateAsync(It.IsAny<Contato>()), Times.AtMostOnce());
+        }
+
+        [Fact]
+        public async void DeleteAsync()
+        {
+            // Arrange
+            var id = new Fixture().Create<int>();
+
+            // Act
+            var deletedContato = await contatoService.DeleteAsync(id);
+
+            // Assert
+            contatoRepoMock.Verify(rep => rep.GetByIdAsync(It.IsAny<int>()), Times.Once);
+            contatoRepoMock.Verify(rep => rep.DeleteAsync(It.IsAny<Contato>()), Times.AtMostOnce());
         }
 
         [Fact]
@@ -100,14 +115,29 @@ namespace Agenda.API.Tests
         public void Update()
         {
             // Arrange
+            var id = new Fixture().Create<int>();
             var contatoPutInputModel = new Fixture().Create<ContatoPutInputModel>();
 
             // Act
-            var updatedContato = contatoService.Update(0, contatoPutInputModel);
+            var updatedContato = contatoService.Update(id, contatoPutInputModel);
 
             // Assert
             contatoRepoMock.Verify(rep => rep.GetById(It.IsAny<int>()), Times.Once);
             contatoRepoMock.Verify(rep => rep.Update(It.IsAny<Contato>()), Times.AtMostOnce());
+        }
+
+        [Fact]
+        public void Delete()
+        {
+            // Arrange
+            var id = new Fixture().Create<int>();
+
+            // Act
+            var deletedContato = contatoService.Delete(id);
+
+            // Assert
+            contatoRepoMock.Verify(rep => rep.GetById(It.IsAny<int>()), Times.Once);
+            contatoRepoMock.Verify(rep => rep.Delete(It.IsAny<Contato>()), Times.AtMostOnce());
         }
     }
 }
