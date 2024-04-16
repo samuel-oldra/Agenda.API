@@ -33,6 +33,19 @@ namespace Agenda.API.Tests
         }
 
         [Fact]
+        public async void GetByIdAsync()
+        {
+            // Arrange
+            var id = new Fixture().Create<int>();
+
+            // Act
+            var evento = await eventoService.GetByIdAsync(id);
+
+            // Assert
+            eventoRepoMock.Verify(rep => rep.GetByIdAsync(It.IsAny<int>()), Times.Once);
+        }
+
+        [Fact]
         public async void AddAsync()
         {
             // Arrange
@@ -82,6 +95,19 @@ namespace Agenda.API.Tests
             // Assert
             eventoRepoMock.Verify(rep => rep.GetByIdAsync(It.IsAny<int>()), Times.Once);
             eventoRepoMock.Verify(rep => rep.DeleteAsync(It.IsAny<Evento>()), Times.AtMostOnce());
+        }
+
+        [Fact]
+        public void GetById()
+        {
+            // Arrange
+            var id = new Fixture().Create<int>();
+
+            // Act
+            var evento = eventoService.GetById(id);
+
+            // Assert
+            eventoRepoMock.Verify(rep => rep.GetById(It.IsAny<int>()), Times.Once);
         }
 
         [Fact]
