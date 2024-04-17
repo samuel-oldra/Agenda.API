@@ -33,6 +33,16 @@ namespace Agenda.API.Tests
         }
 
         [Fact]
+        public async void GetAllAsync()
+        {
+            // Act
+            var tarefas = await tarefaService.GetAllAsync();
+
+            // Assert
+            tarefaRepoMock.Verify(rep => rep.GetAllAsync(), Times.Once);
+        }
+
+        [Fact]
         public async void GetByIdAsync()
         {
             // Arrange
@@ -99,6 +109,16 @@ namespace Agenda.API.Tests
             // Assert
             tarefaRepoMock.Verify(rep => rep.GetByIdAsync(It.IsAny<int>()), Times.Once);
             tarefaRepoMock.Verify(rep => rep.DeleteAsync(It.IsAny<Tarefa>()), Times.AtMostOnce());
+        }
+
+        [Fact]
+        public void GetAll()
+        {
+            // Act
+            var tarefas = tarefaService.GetAll();
+
+            // Assert
+            tarefaRepoMock.Verify(rep => rep.GetAll(), Times.Once);
         }
 
         [Fact]

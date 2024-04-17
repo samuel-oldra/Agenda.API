@@ -23,6 +23,9 @@ namespace Agenda.API.Services
         {
             var tarefas = await this.repository.GetAllAsync();
 
+            if (tarefas == null)
+                return null;
+
             var tarefasViewModel = new List<TarefaViewModel>();
 
             foreach (var tarefa in tarefas)
@@ -89,6 +92,9 @@ namespace Agenda.API.Services
         public List<TarefaViewModel> GetAll()
         {
             var tarefas = this.repository.GetAll();
+
+            if (tarefas == null)
+                return null;
 
             var tarefasViewModel = new List<TarefaViewModel>();
 

@@ -33,6 +33,16 @@ namespace Agenda.API.Tests
         }
 
         [Fact]
+        public async void GetAllAsync()
+        {
+            // Act
+            var contatos = await contatoService.GetAllAsync();
+
+            // Assert
+            contatoRepoMock.Verify(rep => rep.GetAllAsync(), Times.Once);
+        }
+
+        [Fact]
         public async void GetByIdAsync()
         {
             // Arrange
@@ -97,6 +107,16 @@ namespace Agenda.API.Tests
             // Assert
             contatoRepoMock.Verify(rep => rep.GetByIdAsync(It.IsAny<int>()), Times.Once);
             contatoRepoMock.Verify(rep => rep.DeleteAsync(It.IsAny<Contato>()), Times.AtMostOnce());
+        }
+
+        [Fact]
+        public void GetAll()
+        {
+            // Act
+            var contatos = contatoService.GetAll();
+
+            // Assert
+            contatoRepoMock.Verify(rep => rep.GetAll(), Times.Once);
         }
 
         [Fact]

@@ -23,6 +23,9 @@ namespace Agenda.API.Services
         {
             var contatos = await this.repository.GetAllAsync();
 
+            if (contatos == null)
+                return null;
+
             var contatosViewModel = new List<ContatoViewModel>();
 
             foreach (var contato in contatos)
@@ -89,6 +92,9 @@ namespace Agenda.API.Services
         public List<ContatoViewModel> GetAll()
         {
             var contatos = this.repository.GetAll();
+
+            if (contatos == null)
+                return null;
 
             var contatosViewModel = new List<ContatoViewModel>();
 

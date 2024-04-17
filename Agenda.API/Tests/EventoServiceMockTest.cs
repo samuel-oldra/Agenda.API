@@ -33,6 +33,16 @@ namespace Agenda.API.Tests
         }
 
         [Fact]
+        public async void GetAllAsync()
+        {
+            // Act
+            var eventos = await eventoService.GetAllAsync();
+
+            // Assert
+            eventoRepoMock.Verify(rep => rep.GetAllAsync(), Times.Once);
+        }
+
+        [Fact]
         public async void GetByIdAsync()
         {
             // Arrange
@@ -95,6 +105,16 @@ namespace Agenda.API.Tests
             // Assert
             eventoRepoMock.Verify(rep => rep.GetByIdAsync(It.IsAny<int>()), Times.Once);
             eventoRepoMock.Verify(rep => rep.DeleteAsync(It.IsAny<Evento>()), Times.AtMostOnce());
+        }
+
+        [Fact]
+        public void GetAll()
+        {
+            // Act
+            var eventos = eventoService.GetAll();
+
+            // Assert
+            eventoRepoMock.Verify(rep => rep.GetAll(), Times.Once);
         }
 
         [Fact]

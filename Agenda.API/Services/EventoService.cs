@@ -23,6 +23,9 @@ namespace Agenda.API.Services
         {
             var eventos = await this.repository.GetAllAsync();
 
+            if (eventos == null)
+                return null;
+
             var eventosViewModel = new List<EventoViewModel>();
 
             foreach (var evento in eventos)
@@ -89,6 +92,9 @@ namespace Agenda.API.Services
         public List<EventoViewModel> GetAll()
         {
             var eventos = this.repository.GetAll();
+
+            if (eventos == null)
+                return null;
 
             var eventosViewModel = new List<EventoViewModel>();
 
