@@ -1,12 +1,12 @@
-using Agenda.API.Entities;
+using Agenda.API.Data;
 using Agenda.API.Mappers;
 using Agenda.API.Models;
-using Agenda.API.Repositories.Interfaces;
+using Agenda.API.Repositories;
 using Agenda.API.Services;
 using AutoFixture;
 using AutoMapper;
 using BenchmarkDotNet.Attributes;
-using Moq;
+using Microsoft.EntityFrameworkCore;
 using Shouldly;
 using Xunit;
 
@@ -16,110 +16,134 @@ namespace Agenda.API.Tests
     {
         [Fact]
         [Benchmark]
-        public void ContatoServiceTest_Add()
+        public void Contatos_Add100_GetAll_Count()
         {
             // Arrange
             var mapperConfiguration = new MapperConfiguration(cfg =>
             {
                 cfg.AddProfile(new ContatoMapper());
             });
-            var mapperObject = mapperConfiguration.CreateMapper();
 
-            var contatoRepoMock = new Mock<IContatoRepository>();
+            var mapper = mapperConfiguration.CreateMapper();
 
-            var contatoService = new ContatoService(mapperObject, contatoRepoMock.Object);
+            DbContextOptions<DataContext> dataContextOptions =
+                new DbContextOptionsBuilder<DataContext>()
+                    .UseInMemoryDatabase("dados_performance")
+                    .Options;
 
-            var contatoPostInputModel = new Fixture().Create<ContatoPostInputModel>();
+            DataContext dataContext = new DataContext(dataContextOptions);
+
+            var contatoRepository = new ContatoRepository(dataContext);
+
+            var contatoService = new ContatoService(mapper, contatoRepository);
 
             // Act
-            var addedContato = contatoService.Add(contatoPostInputModel);
+            var deletedAll = contatoService.DeleteAll();
+
+            for (int i = 0; i < 100; i++)
+            {
+                var contatoPostInputModel = new Fixture().Create<ContatoPostInputModel>();
+                var contato = contatoService.Add(contatoPostInputModel);
+            }
+
+            var contatos = contatoService.GetAll();
 
             // Assert
-            Assert.NotNull(addedContato);
-            Assert.Equal(addedContato.Nome, contatoPostInputModel.Nome);
-            Assert.Equal(addedContato.Email, contatoPostInputModel.Email);
-            Assert.Equal(addedContato.Telefone, contatoPostInputModel.Telefone);
-            Assert.Equal(addedContato.DataNascimento, contatoPostInputModel.DataNascimento);
+            Assert.True(deletedAll);
+            Assert.NotNull(contatos);
+            Assert.True(contatos.Count() == 100);
 
-            addedContato.ShouldNotBeNull();
-            addedContato.Nome.ShouldBe(contatoPostInputModel.Nome);
-            addedContato.Email.ShouldBe(contatoPostInputModel.Email);
-            addedContato.Telefone.ShouldBe(contatoPostInputModel.Telefone);
-            addedContato.DataNascimento.ShouldBe(contatoPostInputModel.DataNascimento);
-
-            contatoRepoMock.Verify(repo => repo.Add(It.IsAny<Contato>()), Times.Once);
+            deletedAll.ShouldBe(true);
+            contatos.ShouldNotBeNull();
+            contatos.Count().ShouldBe(100);
         }
 
         [Fact]
         [Benchmark]
-        public void EventoServiceTest_Add()
+        public void Eventos_Add100_GetAll_Count()
         {
             // Arrange
             var mapperConfiguration = new MapperConfiguration(cfg =>
             {
                 cfg.AddProfile(new EventoMapper());
             });
-            var mapperObject = mapperConfiguration.CreateMapper();
 
-            var eventoRepoMock = new Mock<IEventoRepository>();
+            var mapper = mapperConfiguration.CreateMapper();
 
-            var eventoService = new EventoService(mapperObject, eventoRepoMock.Object);
+            DbContextOptions<DataContext> dataContextOptions =
+                new DbContextOptionsBuilder<DataContext>()
+                    .UseInMemoryDatabase("dados_performance")
+                    .Options;
 
-            var eventoPostInputModel = new Fixture().Create<EventoPostInputModel>();
+            DataContext dataContext = new DataContext(dataContextOptions);
+
+            var eventoRepository = new EventoRepository(dataContext);
+
+            var eventoService = new EventoService(mapper, eventoRepository);
 
             // Act
-            var addedEvento = eventoService.Add(eventoPostInputModel);
+            var deletedAll = eventoService.DeleteAll();
+
+            for (int i = 0; i < 100; i++)
+            {
+                var eventoPostInputModel = new Fixture().Create<EventoPostInputModel>();
+                var evento = eventoService.Add(eventoPostInputModel);
+            }
+
+            var eventos = eventoService.GetAll();
 
             // Assert
-            Assert.NotNull(addedEvento);
-            Assert.Equal(addedEvento.Nome, eventoPostInputModel.Nome);
-            Assert.Equal(addedEvento.Descricao, eventoPostInputModel.Descricao);
-            Assert.Equal(addedEvento.Data, eventoPostInputModel.Data);
+            Assert.True(deletedAll);
+            Assert.NotNull(eventos);
+            Assert.True(eventos.Count() == 100);
 
-            addedEvento.ShouldNotBeNull();
-            addedEvento.Nome.ShouldBe(eventoPostInputModel.Nome);
-            addedEvento.Descricao.ShouldBe(eventoPostInputModel.Descricao);
-            addedEvento.Data.ShouldBe(eventoPostInputModel.Data);
-
-            eventoRepoMock.Verify(repo => repo.Add(It.IsAny<Evento>()), Times.Once);
+            deletedAll.ShouldBe(true);
+            eventos.ShouldNotBeNull();
+            eventos.Count().ShouldBe(100);
         }
 
         [Fact]
         [Benchmark]
-        public void TarefaServiceTest_Add()
+        public void Tarefas_Add100_GetAll_Count()
         {
             // Arrange
             var mapperConfiguration = new MapperConfiguration(cfg =>
             {
                 cfg.AddProfile(new TarefaMapper());
             });
-            var mapperObject = mapperConfiguration.CreateMapper();
 
-            var tarefaRepoMock = new Mock<ITarefaRepository>();
+            var mapper = mapperConfiguration.CreateMapper();
 
-            var tarefaService = new TarefaService(mapperObject, tarefaRepoMock.Object);
+            DbContextOptions<DataContext> dataContextOptions =
+                new DbContextOptionsBuilder<DataContext>()
+                    .UseInMemoryDatabase("dados_performance")
+                    .Options;
 
-            var tarefaPostInputModel = new Fixture().Create<TarefaPostInputModel>();
+            DataContext dataContext = new DataContext(dataContextOptions);
+
+            var tarefaRepository = new TarefaRepository(dataContext);
+
+            var tarefaService = new TarefaService(mapper, tarefaRepository);
 
             // Act
-            var addedTarefa = tarefaService.Add(tarefaPostInputModel);
+            var deletedAll = tarefaService.DeleteAll();
+
+            for (int i = 0; i < 100; i++)
+            {
+                var tarefaPostInputModel = new Fixture().Create<TarefaPostInputModel>();
+                var tarefa = tarefaService.Add(tarefaPostInputModel);
+            }
+
+            var tarefas = tarefaService.GetAll();
 
             // Assert
-            Assert.NotNull(addedTarefa);
-            Assert.Equal(addedTarefa.Nome, tarefaPostInputModel.Nome);
-            Assert.Equal(addedTarefa.Descricao, tarefaPostInputModel.Descricao);
-            Assert.Equal(addedTarefa.DataInicio, tarefaPostInputModel.DataInicio);
-            Assert.Equal(addedTarefa.DataTermino, tarefaPostInputModel.DataTermino);
-            Assert.Equal(addedTarefa.Prioridade, tarefaPostInputModel.Prioridade);
+            Assert.True(deletedAll);
+            Assert.NotNull(tarefas);
+            Assert.True(tarefas.Count() == 100);
 
-            addedTarefa.ShouldNotBeNull();
-            addedTarefa.Nome.ShouldBe(tarefaPostInputModel.Nome);
-            addedTarefa.Descricao.ShouldBe(tarefaPostInputModel.Descricao);
-            addedTarefa.DataInicio.ShouldBe(tarefaPostInputModel.DataInicio);
-            addedTarefa.DataTermino.ShouldBe(tarefaPostInputModel.DataTermino);
-            addedTarefa.Prioridade.ShouldBe(tarefaPostInputModel.Prioridade);
-
-            tarefaRepoMock.Verify(repo => repo.Add(It.IsAny<Tarefa>()), Times.Once);
+            deletedAll.ShouldBe(true);
+            tarefas.ShouldNotBeNull();
+            tarefas.Count().ShouldBe(100);
         }
     }
 }
