@@ -26,7 +26,7 @@ namespace Agenda.API.Repositories
 
         public async Task AddAsync(Tarefa entity)
         {
-            context.Tarefas.AddAsync(entity);
+            await context.Tarefas.AddAsync(entity);
 
             await context.SaveChangesAsync();
         }

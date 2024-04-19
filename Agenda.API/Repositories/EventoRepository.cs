@@ -26,7 +26,7 @@ namespace Agenda.API.Repositories
 
         public async Task AddAsync(Evento entity)
         {
-            context.Eventos.AddAsync(entity);
+            await context.Eventos.AddAsync(entity);
 
             await context.SaveChangesAsync();
         }
