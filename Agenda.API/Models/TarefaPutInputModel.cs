@@ -9,7 +9,7 @@ namespace Agenda.API.Models
         [Required(ErrorMessage = "DA. Esse campo é obrigatório")]
         [MinLength(3, ErrorMessage = "DA. Esse campo deve conter entre 3 e 1000 caracteres")]
         [MaxLength(1000, ErrorMessage = "DA. Esse campo deve conter entre 3 e 1000 caracteres")]
-        public string Descricao { get; set; }
+        public string Descricao { get; set; } = string.Empty;
 
         public DateTime DataInicio { get; set; }
 

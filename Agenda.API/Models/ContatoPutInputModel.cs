@@ -10,13 +10,13 @@ namespace Agenda.API.Models
         [MinLength(10, ErrorMessage = "DA. Esse campo deve conter entre 10 e 100 caracteres")]
         [MaxLength(100, ErrorMessage = "DA. Esse campo deve conter entre 10 e 100 caracteres")]
         [RegularExpression(ExpressoesRegulares.EMAIL, ErrorMessage = "DA. E-mail inválido")]
-        public string Email { get; set; }
+        public string Email { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "DA. Esse campo é obrigatório")]
         [MinLength(8, ErrorMessage = "DA. Esse campo deve conter entre 8 e 50 caracteres")]
         [MaxLength(50, ErrorMessage = "DA. Esse campo deve conter entre 8 e 50 caracteres")]
         [RegularExpression(ExpressoesRegulares.TELEFONE, ErrorMessage = "DA. Telefone inválido")]
-        public string Telefone { get; set; }
+        public string Telefone { get; set; } = string.Empty;
 
         public DateTime DataNascimento { get; set; }
     }
