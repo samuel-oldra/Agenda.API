@@ -23,7 +23,7 @@ namespace Agenda.API.Controllers
         /// <returns>Lista de Tarefas</returns>
         /// <response code="200">Sucesso</response>
         [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<TarefaViewModel>))]
         public async Task<IActionResult> GetAll()
         {
             Log.Information("Endpoint - GET: api/tarefas");
@@ -74,7 +74,7 @@ namespace Agenda.API.Controllers
         /// <response code="200">Sucesso</response>
         /// <response code="404">Não encontrado</response>
         [HttpGet("{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(TarefaViewModel))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetById(int id)
         {

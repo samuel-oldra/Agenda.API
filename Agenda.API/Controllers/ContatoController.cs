@@ -23,7 +23,7 @@ namespace Agenda.API.Controllers
         /// <returns>Lista de Contatos</returns>
         /// <response code="200">Sucesso</response>
         [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<ContatoViewModel>))]
         public async Task<IActionResult> GetAll()
         {
             Log.Information("Endpoint - GET: api/contatos");
@@ -73,7 +73,7 @@ namespace Agenda.API.Controllers
         /// <response code="200">Sucesso</response>
         /// <response code="404">Não encontrado</response>
         [HttpGet("{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ContatoViewModel))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetById(int id)
         {
