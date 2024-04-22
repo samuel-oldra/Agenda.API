@@ -53,7 +53,7 @@ namespace Agenda.API.Controllers
         /// <response code="201">Sucesso</response>
         /// <response code="400">Dados inválidos</response>
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(ContatoViewModel))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Post(ContatoPostInputModel model)
         {
