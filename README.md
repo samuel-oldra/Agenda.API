@@ -15,15 +15,15 @@ _OBS.: Esse é um projeto de estudo! Existem técnicas, métodos e tecnologias n
 - ASP.NET Core com .NET 8
 - Entity Framework Core
 - In-Memory database
-- Swagger
-- AutoMapper
+- Swagger (documentação)
+- AutoMapper (mapeamento)
+- Serilog (log)
+- xUnit, AutoFixture, Moq e Shouldly (teste unitário)
+- DataAnnotation e FluentValidation (validação)
+- BenchmarkDotNet (analise de desempenho)
 - Programação Orientada a Objetos
 - Injeção de Dependência
 - Padrão Repository
-- Logs com Serilog
-- Validações com DataAnnotations e FluentValidations
-- Testes com xUnit, AutoFixture, Moq e Shouldly
-- Analise de performance com BenchmarkDotNet
 - Clean Code
 - Publicação
 
