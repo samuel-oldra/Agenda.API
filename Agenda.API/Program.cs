@@ -1,4 +1,3 @@
-using System.Reflection;
 using Agenda.API.Data;
 using Agenda.API.Mappers;
 using Agenda.API.Models;
@@ -14,6 +13,7 @@ using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Serilog;
+using System.Reflection;
 
 // BenchmarkDotNet
 // dotnet run --configuration Release
