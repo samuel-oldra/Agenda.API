@@ -40,7 +40,7 @@ namespace Agenda.API.Tests
         }
 
         [Fact]
-        public async void GetAllAsync()
+        public async Task GetAllAsync()
         {
             // Arrange
             var contatoPostInputModel1 = new Fixture().Create<ContatoPostInputModel>();
@@ -69,7 +69,7 @@ namespace Agenda.API.Tests
         }
 
         [Fact]
-        public async void GetByIdAsync()
+        public async Task GetByIdAsync()
         {
             // Arrange
             var contatoPostInputModel = new Fixture().Create<ContatoPostInputModel>();
@@ -95,7 +95,7 @@ namespace Agenda.API.Tests
         }
 
         [Fact]
-        public async void AddAsync()
+        public async Task AddAsync()
         {
             // Arrange
             var contatoPostInputModel = new Fixture().Create<ContatoPostInputModel>();
@@ -120,7 +120,7 @@ namespace Agenda.API.Tests
         }
 
         [Fact]
-        public async void UpdateAsync()
+        public async Task UpdateAsync()
         {
             // Arrange
             var contatoPostInputModel = new Fixture().Create<ContatoPostInputModel>();
@@ -147,7 +147,7 @@ namespace Agenda.API.Tests
         }
 
         [Fact]
-        public async void DeleteAsync()
+        public async Task DeleteAsync()
         {
             // Arrange
             var contatoPostInputModel = new Fixture().Create<ContatoPostInputModel>();
@@ -155,7 +155,7 @@ namespace Agenda.API.Tests
             // Act
             var addedContato = await contatoService.AddAsync(contatoPostInputModel);
             var deletedContato = await contatoService.DeleteAsync(addedContato.Id);
-            var contato = await contatoService.GetByIdAsync(deletedContato.Id);
+            var contato = await contatoService.GetByIdAsync(addedContato.Id);
 
             // Assert
             Assert.NotNull(addedContato);
@@ -287,7 +287,7 @@ namespace Agenda.API.Tests
             // Act
             var addedContato = contatoService.Add(contatoPostInputModel);
             var deletedContato = contatoService.Delete(addedContato.Id);
-            var contato = contatoService.GetById(deletedContato.Id);
+            var contato = contatoService.GetById(addedContato.Id);
 
             // Assert
             Assert.NotNull(addedContato);

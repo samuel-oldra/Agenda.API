@@ -1,3 +1,4 @@
+using Agenda.API.Entities;
 using Agenda.API.Models;
 using Agenda.API.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -11,6 +12,10 @@ namespace Agenda.API.Controllers
     {
         private readonly IContatoService service;
 
+        /// <summary>
+        /// Construtor
+        /// </summary>
+        /// <param name="contatoService"></param>
         public ContatoController(IContatoService contatoService)
         {
             this.service = contatoService;
@@ -22,13 +27,18 @@ namespace Agenda.API.Controllers
         /// </summary>
         /// <returns>Lista de Contatos</returns>
         /// <response code="200">Sucesso</response>
+        /// <response code="404">Não encontrado</response>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<ContatoViewModel>))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetAll()
         {
             Log.Information("Endpoint - GET: api/contatos");
 
             var contatos = await service.GetAllAsync();
+
+            if (contatos == null)
+                return NotFound("Nenhum contato encontrado");
 
             Log.Information($"{contatos.Count()} contatos recuperados");
 

@@ -40,7 +40,7 @@ namespace Agenda.API.Tests
         }
 
         [Fact]
-        public async void GetAllAsync()
+        public async Task GetAllAsync()
         {
             // Arrange
             var tarefaPostInputModel1 = new Fixture().Create<TarefaPostInputModel>();
@@ -69,7 +69,7 @@ namespace Agenda.API.Tests
         }
 
         [Fact]
-        public async void GetByIdAsync()
+        public async Task GetByIdAsync()
         {
             // Arrange
             var tarefaPostInputModel = new Fixture().Create<TarefaPostInputModel>();
@@ -97,7 +97,7 @@ namespace Agenda.API.Tests
         }
 
         [Fact]
-        public async void AddAsync()
+        public async Task AddAsync()
         {
             // Arrange
             var tarefaPostInputModel = new Fixture().Create<TarefaPostInputModel>();
@@ -124,7 +124,7 @@ namespace Agenda.API.Tests
         }
 
         [Fact]
-        public async void UpdateAsync()
+        public async Task UpdateAsync()
         {
             // Arrange
             var tarefaPostInputModel = new Fixture().Create<TarefaPostInputModel>();
@@ -153,7 +153,7 @@ namespace Agenda.API.Tests
         }
 
         [Fact]
-        public async void DeleteAsync()
+        public async Task DeleteAsync()
         {
             // Arrange
             var tarefaPostInputModel = new Fixture().Create<TarefaPostInputModel>();
@@ -161,7 +161,7 @@ namespace Agenda.API.Tests
             // Act
             var addedTarefa = await tarefaService.AddAsync(tarefaPostInputModel);
             var deletedTarefa = await tarefaService.DeleteAsync(addedTarefa.Id);
-            var tarefa = await tarefaService.GetByIdAsync(deletedTarefa.Id);
+            var tarefa = await tarefaService.GetByIdAsync(addedTarefa.Id);
 
             // Assert
             Assert.NotNull(addedTarefa);
@@ -299,7 +299,7 @@ namespace Agenda.API.Tests
             // Act
             var addedTarefa = tarefaService.Add(tarefaPostInputModel);
             var deletedTarefa = tarefaService.Delete(addedTarefa.Id);
-            var tarefa = tarefaService.GetById(deletedTarefa.Id);
+            var tarefa = tarefaService.GetById(addedTarefa.Id);
 
             // Assert
             Assert.NotNull(addedTarefa);

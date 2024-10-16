@@ -19,7 +19,7 @@ namespace Agenda.API.Repositories
             return await context.Contatos.ToListAsync();
         }
 
-        public async Task<Contato> GetByIdAsync(int id)
+        public async Task<Contato?> GetByIdAsync(int id)
         {
             return await context.Contatos.SingleOrDefaultAsync(c => c.Id == id);
         }
@@ -50,7 +50,7 @@ namespace Agenda.API.Repositories
             return context.Contatos.ToList();
         }
 
-        public Contato GetById(int id)
+        public Contato? GetById(int id)
         {
             return context.Contatos.SingleOrDefault(c => c.Id == id);
         }
@@ -108,22 +108,22 @@ namespace Agenda.API.Repositories
             return await context.Contatos.AllAsync(c => c.Nome == nome);
         }
 
-        public async Task<Contato> FirstOrDefaultAsync()
+        public async Task<Contato?> FirstOrDefaultAsync()
         {
             return await context.Contatos.FirstOrDefaultAsync();
         }
 
-        public async Task<Contato> FirstOrDefaultAsync(string nome)
+        public async Task<Contato?> FirstOrDefaultAsync(string nome)
         {
             return await context.Contatos.FirstOrDefaultAsync(c => c.Nome == nome);
         }
 
-        public async Task<Contato> LastOrDefaultAsync()
+        public async Task<Contato?> LastOrDefaultAsync()
         {
             return await context.Contatos.LastOrDefaultAsync();
         }
 
-        public async Task<Contato> LastOrDefaultAsync(string nome)
+        public async Task<Contato?> LastOrDefaultAsync(string nome)
         {
             return await context.Contatos.LastOrDefaultAsync(c => c.Nome == nome);
         }
@@ -184,6 +184,6 @@ namespace Agenda.API.Repositories
             return await context.Contatos.Skip(qtd).ToListAsync();
         }
 
-        #endregion
+        #endregion SOMENTE ESTUDO
     }
 }

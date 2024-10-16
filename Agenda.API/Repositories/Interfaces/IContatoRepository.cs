@@ -6,7 +6,7 @@ namespace Agenda.API.Repositories.Interfaces
     {
         Task<List<Contato>> GetAllAsync();
 
-        Task<Contato> GetByIdAsync(int id);
+        Task<Contato?> GetByIdAsync(int id);
 
         Task AddAsync(Contato entity);
 
@@ -16,7 +16,7 @@ namespace Agenda.API.Repositories.Interfaces
 
         List<Contato> GetAll();
 
-        Contato GetById(int id);
+        Contato? GetById(int id);
 
         void Add(Contato entity);
 
@@ -36,13 +36,13 @@ namespace Agenda.API.Repositories.Interfaces
 
         Task<bool> AllAsync(string nome);
 
-        Task<Contato> FirstOrDefaultAsync();
+        Task<Contato?> FirstOrDefaultAsync();
 
-        Task<Contato> FirstOrDefaultAsync(string nome);
+        Task<Contato?> FirstOrDefaultAsync(string nome);
 
-        Task<Contato> LastOrDefaultAsync();
+        Task<Contato?> LastOrDefaultAsync();
 
-        Task<Contato> LastOrDefaultAsync(string nome);
+        Task<Contato?> LastOrDefaultAsync(string nome);
 
         Task<Contato> ElementAtOrDefaultAsync(int index);
 
@@ -56,6 +56,6 @@ namespace Agenda.API.Repositories.Interfaces
 
         Task<List<Contato>> Skip(int qtd);
 
-        #endregion
+        #endregion SOMENTE ESTUDO
     }
 }

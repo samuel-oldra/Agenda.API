@@ -19,7 +19,7 @@ namespace Agenda.API.Services
             this.repository = tarefaRepository;
         }
 
-        public async Task<List<TarefaViewModel>> GetAllAsync()
+        public async Task<List<TarefaViewModel>?> GetAllAsync()
         {
             var tarefas = await this.repository.GetAllAsync();
 
@@ -34,7 +34,7 @@ namespace Agenda.API.Services
             return tarefasViewModel;
         }
 
-        public async Task<TarefaViewModel> GetByIdAsync(int id)
+        public async Task<TarefaViewModel?> GetByIdAsync(int id)
         {
             var tarefa = await this.repository.GetByIdAsync(id);
 
@@ -53,7 +53,7 @@ namespace Agenda.API.Services
             return mapper.Map<TarefaViewModel>(tarefa);
         }
 
-        public async Task<TarefaViewModel> UpdateAsync(int id, TarefaPutInputModel model)
+        public async Task<TarefaViewModel?> UpdateAsync(int id, TarefaPutInputModel model)
         {
             var tarefa = await this.repository.GetByIdAsync(id);
 
@@ -67,7 +67,7 @@ namespace Agenda.API.Services
             return mapper.Map<TarefaViewModel>(tarefa);
         }
 
-        public async Task<TarefaViewModel> DeleteAsync(int id)
+        public async Task<TarefaViewModel?> DeleteAsync(int id)
         {
             var tarefa = await this.repository.GetByIdAsync(id);
 
@@ -89,7 +89,7 @@ namespace Agenda.API.Services
             return true;
         }
 
-        public List<TarefaViewModel> GetAll()
+        public List<TarefaViewModel>? GetAll()
         {
             var tarefas = this.repository.GetAll();
 
@@ -104,7 +104,7 @@ namespace Agenda.API.Services
             return tarefasViewModel;
         }
 
-        public TarefaViewModel GetById(int id)
+        public TarefaViewModel? GetById(int id)
         {
             var tarefa = this.repository.GetById(id);
 
@@ -123,7 +123,7 @@ namespace Agenda.API.Services
             return mapper.Map<TarefaViewModel>(tarefa);
         }
 
-        public TarefaViewModel Update(int id, TarefaPutInputModel model)
+        public TarefaViewModel? Update(int id, TarefaPutInputModel model)
         {
             var tarefa = this.repository.GetById(id);
 
@@ -137,7 +137,7 @@ namespace Agenda.API.Services
             return mapper.Map<TarefaViewModel>(tarefa);
         }
 
-        public TarefaViewModel Delete(int id)
+        public TarefaViewModel? Delete(int id)
         {
             var tarefa = this.repository.GetById(id);
 

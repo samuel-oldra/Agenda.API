@@ -1,3 +1,4 @@
+using Agenda.API.Entities;
 using Agenda.API.Models;
 using Agenda.API.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -11,6 +12,10 @@ namespace Agenda.API.Controllers
     {
         private readonly ITarefaService service;
 
+        /// <summary>
+        /// Construtor
+        /// </summary>
+        /// <param name="tarefaService"></param>
         public TarefaController(ITarefaService tarefaService)
         {
             this.service = tarefaService;
@@ -22,13 +27,18 @@ namespace Agenda.API.Controllers
         /// </summary>
         /// <returns>Lista de Tarefas</returns>
         /// <response code="200">Sucesso</response>
+        /// <response code="404">Não encontrado</response>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<TarefaViewModel>))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetAll()
         {
             Log.Information("Endpoint - GET: api/tarefas");
 
             var tarefas = await service.GetAllAsync();
+
+            if (tarefas == null)
+                return NotFound("Nenhuma tarefa encontrada");
 
             Log.Information($"{tarefas.Count()} tarefas recuperadas");
 
