@@ -4,27 +4,27 @@ namespace Agenda.API.Services.Interfaces
 {
     public interface ITarefaService
     {
-        Task<List<TarefaViewModel>> GetAllAsync();
+        Task<List<TarefaViewModel>?> GetAllAsync();
 
-        Task<TarefaViewModel> GetByIdAsync(int id);
+        Task<TarefaViewModel?> GetByIdAsync(int id);
 
         Task<TarefaViewModel> AddAsync(TarefaPostInputModel model);
 
-        Task<TarefaViewModel> UpdateAsync(int id, TarefaPutInputModel model);
+        Task<TarefaViewModel?> UpdateAsync(int id, TarefaPutInputModel model);
 
-        Task<TarefaViewModel> DeleteAsync(int id);
+        Task<TarefaViewModel?> DeleteAsync(int id);
 
         Task<bool> DeleteAllAsync();
 
-        List<TarefaViewModel> GetAll();
+        List<TarefaViewModel>? GetAll();
 
-        TarefaViewModel GetById(int id);
+        TarefaViewModel? GetById(int id);
 
         TarefaViewModel Add(TarefaPostInputModel model);
 
-        TarefaViewModel Update(int id, TarefaPutInputModel model);
+        TarefaViewModel? Update(int id, TarefaPutInputModel model);
 
-        TarefaViewModel Delete(int id);
+        TarefaViewModel? Delete(int id);
 
         bool DeleteAll();
     }

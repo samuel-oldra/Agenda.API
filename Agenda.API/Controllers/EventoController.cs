@@ -1,3 +1,4 @@
+using Agenda.API.Entities;
 using Agenda.API.Models;
 using Agenda.API.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -11,6 +12,10 @@ namespace Agenda.API.Controllers
     {
         private readonly IEventoService service;
 
+        /// <summary>
+        /// Construtor
+        /// </summary>
+        /// <param name="eventoService"></param>
         public EventoController(IEventoService eventoService)
         {
             this.service = eventoService;
@@ -22,13 +27,18 @@ namespace Agenda.API.Controllers
         /// </summary>
         /// <returns>Lista de Eventos</returns>
         /// <response code="200">Sucesso</response>
+        /// <response code="404">Não encontrado</response>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<EventoViewModel>))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetAll()
         {
             Log.Information("Endpoint - GET: api/eventos");
 
             var eventos = await service.GetAllAsync();
+
+            if (eventos == null)
+                return NotFound("Nenhum evento encontrado");
 
             Log.Information($"{eventos.Count()} eventos recuperados");
 

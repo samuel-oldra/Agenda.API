@@ -33,7 +33,7 @@ namespace Agenda.API.Tests
         }
 
         [Fact]
-        public async void GetAllAsync()
+        public async Task GetAllAsync()
         {
             // Act
             var contatos = await contatoService.GetAllAsync();
@@ -43,7 +43,7 @@ namespace Agenda.API.Tests
         }
 
         [Fact]
-        public async void GetByIdAsync()
+        public async Task GetByIdAsync()
         {
             // Arrange
             var id = new Fixture().Create<int>();
@@ -56,7 +56,7 @@ namespace Agenda.API.Tests
         }
 
         [Fact]
-        public async void AddAsync()
+        public async Task AddAsync()
         {
             // Arrange
             var contatoPostInputModel = new Fixture().Create<ContatoPostInputModel>();
@@ -81,7 +81,7 @@ namespace Agenda.API.Tests
         }
 
         [Fact]
-        public async void UpdateAsync()
+        public async Task UpdateAsync()
         {
             // Arrange
             var id = new Fixture().Create<int>();
@@ -96,7 +96,7 @@ namespace Agenda.API.Tests
         }
 
         [Fact]
-        public async void DeleteAsync()
+        public async Task DeleteAsync()
         {
             // Arrange
             var id = new Fixture().Create<int>();

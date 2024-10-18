@@ -6,7 +6,7 @@ namespace Agenda.API.Repositories.Interfaces
     {
         Task<List<Tarefa>> GetAllAsync();
 
-        Task<Tarefa> GetByIdAsync(int id);
+        Task<Tarefa?> GetByIdAsync(int id);
 
         Task AddAsync(Tarefa entity);
 
@@ -16,7 +16,7 @@ namespace Agenda.API.Repositories.Interfaces
 
         List<Tarefa> GetAll();
 
-        Tarefa GetById(int id);
+        Tarefa? GetById(int id);
 
         void Add(Tarefa entity);
 

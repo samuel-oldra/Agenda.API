@@ -19,7 +19,7 @@ namespace Agenda.API.Repositories
             return await context.Eventos.ToListAsync();
         }
 
-        public async Task<Evento> GetByIdAsync(int id)
+        public async Task<Evento?> GetByIdAsync(int id)
         {
             return await context.Eventos.SingleOrDefaultAsync(c => c.Id == id);
         }
@@ -50,7 +50,7 @@ namespace Agenda.API.Repositories
             return context.Eventos.ToList();
         }
 
-        public Evento GetById(int id)
+        public Evento? GetById(int id)
         {
             return context.Eventos.SingleOrDefault(c => c.Id == id);
         }

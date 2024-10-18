@@ -19,7 +19,7 @@ namespace Agenda.API.Services
             this.repository = contatoRepository;
         }
 
-        public async Task<List<ContatoViewModel>> GetAllAsync()
+        public async Task<List<ContatoViewModel>?> GetAllAsync()
         {
             var contatos = await this.repository.GetAllAsync();
 
@@ -34,7 +34,7 @@ namespace Agenda.API.Services
             return contatosViewModel;
         }
 
-        public async Task<ContatoViewModel> GetByIdAsync(int id)
+        public async Task<ContatoViewModel?> GetByIdAsync(int id)
         {
             var contato = await this.repository.GetByIdAsync(id);
 
@@ -53,7 +53,7 @@ namespace Agenda.API.Services
             return mapper.Map<ContatoViewModel>(contato);
         }
 
-        public async Task<ContatoViewModel> UpdateAsync(int id, ContatoPutInputModel model)
+        public async Task<ContatoViewModel?> UpdateAsync(int id, ContatoPutInputModel model)
         {
             var contato = await this.repository.GetByIdAsync(id);
 
@@ -67,7 +67,7 @@ namespace Agenda.API.Services
             return mapper.Map<ContatoViewModel>(contato);
         }
 
-        public async Task<ContatoViewModel> DeleteAsync(int id)
+        public async Task<ContatoViewModel?> DeleteAsync(int id)
         {
             var contato = await this.repository.GetByIdAsync(id);
 
@@ -89,7 +89,7 @@ namespace Agenda.API.Services
             return true;
         }
 
-        public List<ContatoViewModel> GetAll()
+        public List<ContatoViewModel>? GetAll()
         {
             var contatos = this.repository.GetAll();
 
@@ -104,7 +104,7 @@ namespace Agenda.API.Services
             return contatosViewModel;
         }
 
-        public ContatoViewModel GetById(int id)
+        public ContatoViewModel? GetById(int id)
         {
             var contato = this.repository.GetById(id);
 
@@ -123,7 +123,7 @@ namespace Agenda.API.Services
             return mapper.Map<ContatoViewModel>(contato);
         }
 
-        public ContatoViewModel Update(int id, ContatoPutInputModel model)
+        public ContatoViewModel? Update(int id, ContatoPutInputModel model)
         {
             var contato = this.repository.GetById(id);
 
@@ -137,7 +137,7 @@ namespace Agenda.API.Services
             return mapper.Map<ContatoViewModel>(contato);
         }
 
-        public ContatoViewModel Delete(int id)
+        public ContatoViewModel? Delete(int id)
         {
             var contato = this.repository.GetById(id);
 

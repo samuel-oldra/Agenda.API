@@ -19,7 +19,7 @@ namespace Agenda.API.Repositories
             return await context.Tarefas.ToListAsync();
         }
 
-        public async Task<Tarefa> GetByIdAsync(int id)
+        public async Task<Tarefa?> GetByIdAsync(int id)
         {
             return await context.Tarefas.SingleOrDefaultAsync(c => c.Id == id);
         }
@@ -50,7 +50,7 @@ namespace Agenda.API.Repositories
             return context.Tarefas.ToList();
         }
 
-        public Tarefa GetById(int id)
+        public Tarefa? GetById(int id)
         {
             return context.Tarefas.SingleOrDefault(c => c.Id == id);
         }

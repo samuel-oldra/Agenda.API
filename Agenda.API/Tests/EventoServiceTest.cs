@@ -40,7 +40,7 @@ namespace Agenda.API.Tests
         }
 
         [Fact]
-        public async void GetAllAsync()
+        public async Task GetAllAsync()
         {
             // Arrange
             var eventoPostInputModel1 = new Fixture().Create<EventoPostInputModel>();
@@ -69,7 +69,7 @@ namespace Agenda.API.Tests
         }
 
         [Fact]
-        public async void GetByIdAsync()
+        public async Task GetByIdAsync()
         {
             // Arrange
             var eventoPostInputModel = new Fixture().Create<EventoPostInputModel>();
@@ -93,7 +93,7 @@ namespace Agenda.API.Tests
         }
 
         [Fact]
-        public async void AddAsync()
+        public async Task AddAsync()
         {
             // Arrange
             var eventoPostInputModel = new Fixture().Create<EventoPostInputModel>();
@@ -116,7 +116,7 @@ namespace Agenda.API.Tests
         }
 
         [Fact]
-        public async void UpdateAsync()
+        public async Task UpdateAsync()
         {
             // Arrange
             var eventoPostInputModel = new Fixture().Create<EventoPostInputModel>();
@@ -141,7 +141,7 @@ namespace Agenda.API.Tests
         }
 
         [Fact]
-        public async void DeleteAsync()
+        public async Task DeleteAsync()
         {
             // Arrange
             var eventoPostInputModel = new Fixture().Create<EventoPostInputModel>();
@@ -149,7 +149,7 @@ namespace Agenda.API.Tests
             // Act
             var addedEvento = await eventoService.AddAsync(eventoPostInputModel);
             var deletedEvento = await eventoService.DeleteAsync(addedEvento.Id);
-            var evento = await eventoService.GetByIdAsync(deletedEvento.Id);
+            var evento = await eventoService.GetByIdAsync(addedEvento.Id);
 
             // Assert
             Assert.NotNull(addedEvento);
@@ -275,7 +275,7 @@ namespace Agenda.API.Tests
             // Act
             var addedEvento = eventoService.Add(eventoPostInputModel);
             var deletedEvento = eventoService.Delete(addedEvento.Id);
-            var evento = eventoService.GetById(deletedEvento.Id);
+            var evento = eventoService.GetById(addedEvento.Id);
 
             // Assert
             Assert.NotNull(addedEvento);

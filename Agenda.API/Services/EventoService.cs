@@ -19,7 +19,7 @@ namespace Agenda.API.Services
             this.repository = eventoRepository;
         }
 
-        public async Task<List<EventoViewModel>> GetAllAsync()
+        public async Task<List<EventoViewModel>?> GetAllAsync()
         {
             var eventos = await this.repository.GetAllAsync();
 
@@ -34,7 +34,7 @@ namespace Agenda.API.Services
             return eventosViewModel;
         }
 
-        public async Task<EventoViewModel> GetByIdAsync(int id)
+        public async Task<EventoViewModel?> GetByIdAsync(int id)
         {
             var evento = await this.repository.GetByIdAsync(id);
 
@@ -53,7 +53,7 @@ namespace Agenda.API.Services
             return mapper.Map<EventoViewModel>(evento);
         }
 
-        public async Task<EventoViewModel> UpdateAsync(int id, EventoPutInputModel model)
+        public async Task<EventoViewModel?> UpdateAsync(int id, EventoPutInputModel model)
         {
             var evento = await this.repository.GetByIdAsync(id);
 
@@ -67,7 +67,7 @@ namespace Agenda.API.Services
             return mapper.Map<EventoViewModel>(evento);
         }
 
-        public async Task<EventoViewModel> DeleteAsync(int id)
+        public async Task<EventoViewModel?> DeleteAsync(int id)
         {
             var evento = await this.repository.GetByIdAsync(id);
 
@@ -89,7 +89,7 @@ namespace Agenda.API.Services
             return true;
         }
 
-        public List<EventoViewModel> GetAll()
+        public List<EventoViewModel>? GetAll()
         {
             var eventos = this.repository.GetAll();
 
@@ -104,7 +104,7 @@ namespace Agenda.API.Services
             return eventosViewModel;
         }
 
-        public EventoViewModel GetById(int id)
+        public EventoViewModel? GetById(int id)
         {
             var evento = this.repository.GetById(id);
 
@@ -123,7 +123,7 @@ namespace Agenda.API.Services
             return mapper.Map<EventoViewModel>(evento);
         }
 
-        public EventoViewModel Update(int id, EventoPutInputModel model)
+        public EventoViewModel? Update(int id, EventoPutInputModel model)
         {
             var evento = this.repository.GetById(id);
 
@@ -137,7 +137,7 @@ namespace Agenda.API.Services
             return mapper.Map<EventoViewModel>(evento);
         }
 
-        public EventoViewModel Delete(int id)
+        public EventoViewModel? Delete(int id)
         {
             var evento = this.repository.GetById(id);
 
