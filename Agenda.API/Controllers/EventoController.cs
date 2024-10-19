@@ -1,4 +1,3 @@
-using Agenda.API.Entities;
 using Agenda.API.Models;
 using Agenda.API.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;

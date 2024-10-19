@@ -1,6 +1,6 @@
-using System.ComponentModel.DataAnnotations;
 using Agenda.API.Utils;
 using FluentValidation;
+using System.ComponentModel.DataAnnotations;
 
 namespace Agenda.API.Models
 {
